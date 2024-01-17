@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:touchable_opacity/touchable_opacity.dart';
-import 'package:vixo/auth/sign_in/auth_account.dart';
-import 'package:vixo/auth/sign_up/create_account.dart';
+import 'package:vixo/auth/sign_in/auth_account_page.dart';
+import 'package:vixo/auth/sign_up/create_account_page.dart';
 import 'package:vixo/components/custom_button.dart';
 import 'package:vixo/constants.dart';
 import 'package:vixo/components/responsive.dart';
@@ -47,9 +47,11 @@ class LoginScreen extends StatelessWidget {
                     child: Text(
                       'Keep In  \nTouch  \nAlways.',
                       style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                          color: kTextColor),
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "walto",
+                        color: Color.fromARGB(255, 214, 123, 123),
+                      ),
                     )),
               ],
             ),
@@ -116,9 +118,11 @@ class CreateAccountButton extends StatelessWidget {
       activeOpacity: 0.8,
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).push(WillPopPageRoute(
-            builder: (_) => const CreateUserPage(),
-          ));
+          Navigator.of(context).push(
+            WillPopPageRoute(
+              builder: (_) => const CreateUserPage(),
+            ),
+          );
         },
         child: Container(
           width: double.infinity,

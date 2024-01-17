@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:vixo/components/auth_sign_in_button.dart';
 import 'package:vixo/components/responsive.dart';
-import 'package:vixo/constants.dart';
 
-class AuthLoginPage extends StatefulWidget {
-  const AuthLoginPage({super.key});
+class CreateUserPage extends StatefulWidget {
+  const CreateUserPage({super.key});
 
   @override
-  State<AuthLoginPage> createState() => _AuthLoginPageState();
+  State<CreateUserPage> createState() => _CreateUserPageState();
 }
 
-class _AuthLoginPageState extends State<AuthLoginPage> {
+class _CreateUserPageState extends State<CreateUserPage> {
   @override
   Widget build(BuildContext context) {
+    final Image iconImage;
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -30,19 +30,20 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
                   left: getScreenPropotionWidth(28, size),
                   top: getScreenPropotionHeight(40, size),
                   child: Text(
-                    'SIGN  \nIN  \nEASY.',
+                    'SIGN  \nUP  \nEASY.',
                     style: TextStyle(
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
-                      color: Colors.pink,
+                      color: Color(0xFFFA5672),
+                      fontFamily: "walto",
                     ),
                   ),
                 ),
                 Positioned(
                   right: 0,
                   child: SvgPicture.asset(
-                    'assets/icons/intro1.svg',
-                    height: getScreenPropotionHeight(300, size),
+                    'assets/icons/intro2.svg',
+                    height: getScreenPropotionHeight(150, size),
                   ),
                 ),
                 Column(
@@ -51,33 +52,33 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
                       height: 350,
                     ),
                     SignInButtonWidget(
-                      buttonText: 'SIGN IN WITH APPLE',
+                      buttonText: 'SIGN UP WITH APPLE',
                       buttonImage: Image.asset("assets/images/apple.png"),
-                      url: AuthLoginPage(),
+                      url: CreateUserPage(),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     SignInButtonWidget(
-                      buttonText: 'SIGN IN WITH GOOGLE',
+                      buttonText: 'SIGN UP WITH GOOGLE',
                       buttonImage: Image.asset("assets/images/google.png"),
-                      url: AuthLoginPage(),
+                      url: CreateUserPage(),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     SignInButtonWidget(
-                      buttonText: 'SIGN IN WITH FACEBOOK',
+                      buttonText: 'SIGN UP WITH FACEBOOK',
                       buttonImage: Image.asset("assets/images/facebook.png"),
-                      url: AuthLoginPage(),
+                      url: CreateUserPage(),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     SignInButtonWidget(
-                      buttonText: 'SIGN IN WITH PHONE NO',
+                      buttonText: 'SIGN UP WITH PHONE NO',
                       buttonImage: Image.asset("assets/images/phone.png"),
-                      url: AuthLoginPage(),
+                      url: CreateUserPage(),
                     ),
                     SizedBox(
                       height: 40,

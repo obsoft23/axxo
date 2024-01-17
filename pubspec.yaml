@@ -89,6 +89,9 @@ flutter:
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-Medium.ttf
+    - family: Walto
+      fonts:
+        - asset: assets/fonts/waltographUI.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
