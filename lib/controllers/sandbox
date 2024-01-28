@@ -1,0 +1,32 @@
+
+/*
+Future sendOTPRequest(String phoneNo) async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  print("abput to send");
+  await auth.verifyPhoneNumber(
+    phoneNumber: phoneNo,
+    codeSent: (String verificationId, int? resendToken) async {
+      // Update the UI - wait for the user to enter the SMS code
+      String smsCode = 'xxxx';
+      //Get.to(ConfirmOTPPage(phoneNo: phoneNo));
+      // Create a PhoneAuthCredential with the code
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: smsCode);
+
+      // Sign the user in (or link) with the credential
+      await auth.signInWithCredential(credential);
+    },
+    verificationCompleted: (phoneAuthCredential) async {
+      print("abput to send");
+      return;
+    },
+    verificationFailed: (error) async {
+      print(error);
+      return;
+    },
+    codeAutoRetrievalTimeout: (verificationId) async {
+      return;
+    },
+  );
+}
+*/

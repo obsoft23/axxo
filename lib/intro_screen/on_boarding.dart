@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intro_screen_onboarding_flutter/introduction.dart';
 import 'package:intro_screen_onboarding_flutter/introscreenonboarding.dart';
-import 'package:vixo/screens/welcome/welcome_screen.dart';
+import 'package:vixo/screens/login/login_screen.dart';
 
 class OnBoarding extends StatelessWidget {
   const OnBoarding({super.key});
@@ -32,10 +32,11 @@ class OnBoarding extends StatelessWidget {
       backgroudColor: const Color(0xFFf9f9f9),
       foregroundColor: const Color(0xFFFA5672),
       onTapSkipButton: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => WelcomeScreen(),
-          )),
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginScreen(),
+        ),
+      ),
       skipTextStyle: const TextStyle(color: Colors.blueGrey, fontSize: 18),
     );
   }

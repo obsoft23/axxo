@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "466382031798",
+    "project_id": "vixo-a91cd",
+    "storage_bucket": "vixo-a91cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466382031798:android:6f23c06b6e960cdaa34f17",
+        "android_client_info": {
+          "package_name": "com.example.vixo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-xpkCnsmnceJ75cd-XQpJtUiEuh-3-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

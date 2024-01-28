@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:touchable_opacity/touchable_opacity.dart';
 import 'package:vixo/auth/sign_in/auth_account_page.dart';
 import 'package:vixo/auth/sign_up/create_account_page.dart';
 import 'package:vixo/components/custom_button.dart';
@@ -28,31 +27,32 @@ class LoginScreen extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned(
-                    left: getScreenPropotionWidth(64, size),
-                    top: getScreenPropotionHeight(90, size),
+                    left: getScreenPropotionWidth(40, size),
+                    top: getScreenPropotionHeight(200, size),
                     child: Image.asset(
                       'assets/images/heart.png',
-                      width: getScreenPropotionHeight(67, size),
+                      width: getScreenPropotionHeight(160, size),
                     )),
                 Positioned(
                   right: 0,
                   child: SvgPicture.asset(
                     'assets/images/couple.svg',
-                    height: getScreenPropotionHeight(390, size),
+                    height: getScreenPropotionHeight(350, size),
                   ),
                 ),
-                Positioned(
-                    left: getScreenPropotionWidth(28, size),
-                    top: getScreenPropotionHeight(190, size),
-                    child: Text(
-                      'Keep In  \nTouch  \nAlways.',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "walto",
-                        color: Color.fromARGB(255, 214, 123, 123),
-                      ),
-                    )),
+                /*  Positioned(
+                  left: getScreenPropotionWidth(28, size),
+                  top: getScreenPropotionHeight(190, size),
+                  child: Text(
+                    'Keep In  \nTouch  \nAlways.',
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "walto",
+                      color: Color.fromARGB(255, 214, 123, 123),
+                    ),
+                  ),
+                ),*/
               ],
             ),
           ),
@@ -114,33 +114,34 @@ class CreateAccountButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TouchableOpacity(
-      activeOpacity: 0.8,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(
-            WillPopPageRoute(
-              builder: (_) => const CreateUserPage(),
-            ),
-          );
-        },
-        child: Container(
-          width: double.infinity,
-          height: 56.0,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.blueGrey),
-            borderRadius: BorderRadius.circular(12.0),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          WillPopPageRoute(
+            builder: (_) => const CreateUserPage(),
           ),
-          alignment: Alignment.center,
-          child: Text(
-            "CREATE ACCOUNT",
-            style: TextStyle(
-              color: kPrimaryColor,
-              fontSize: 18.0,
-              fontWeight: FontWeight.w600,
+        );
+      },
+      child: Ink(
+        width: double.infinity,
+        height: 56.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.blueGrey),
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "CREATE ACCOUNT",
+              style: TextStyle(
+                color: kPrimaryColor,
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

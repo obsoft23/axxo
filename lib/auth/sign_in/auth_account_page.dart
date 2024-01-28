@@ -20,72 +20,73 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
-        child: Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Stack(
-              children: [
-                Positioned(
-                  left: getScreenPropotionWidth(28, size),
-                  top: getScreenPropotionHeight(40, size),
-                  child: Text(
-                    'SIGN  \nIN  \nEASY.',
-                    style: TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFFFA5672),
-                      fontFamily: "walto",
-                    ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Stack(
+            children: [
+              Positioned(
+                left: getScreenPropotionWidth(28, size),
+                top: getScreenPropotionHeight(40, size),
+                child: Text(
+                  'SIGN  \nIN  \nEASY.',
+                  style: TextStyle(
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFFA5672),
+                    fontFamily: "walto",
                   ),
                 ),
-                Positioned(
-                  right: 0,
-                  child: SvgPicture.asset(
-                    'assets/icons/intro1.svg',
-                    height: getScreenPropotionHeight(300, size),
+              ),
+              Positioned(
+                right: 0,
+                child: SvgPicture.asset(
+                  'assets/icons/intro1.svg',
+                  height: getScreenPropotionHeight(300, size),
+                ),
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: 350,
                   ),
-                ),
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 350,
-                    ),
-                    SignInButtonWidget(
-                      buttonText: 'SIGN IN WITH APPLE',
-                      buttonImage: Image.asset("assets/images/apple.png"),
-                      url: AuthLoginPage(),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SignInButtonWidget(
-                      buttonText: 'SIGN IN WITH GOOGLE',
-                      buttonImage: Image.asset("assets/images/google.png"),
-                      url: AuthLoginPage(),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SignInButtonWidget(
-                      buttonText: 'SIGN IN WITH FACEBOOK',
-                      buttonImage: Image.asset("assets/images/facebook.png"),
-                      url: AuthLoginPage(),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SignInButtonWidget(
-                      buttonText: 'SIGN IN WITH PHONE NO',
-                      buttonImage: Image.asset("assets/images/phone.png"),
-                      url: AuthLoginPage(),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  SignInButtonWidget(
+                    buttonText: 'SIGN IN WITH PHONE NO',
+                    buttonImage: Image.asset("assets/images/phone.png"),
+                    url: AuthLoginPage(),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SignInButtonWidget(
+                    buttonText: 'SIGN IN WITH APPLE',
+                    buttonImage: Image.asset("assets/images/apple.png"),
+                    url: AuthLoginPage(),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SignInButtonWidget(
+                    buttonText: 'SIGN IN WITH GOOGLE',
+                    buttonImage: Image.asset("assets/images/google.png"),
+                    url: AuthLoginPage(),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SignInButtonWidget(
+                    buttonText: 'SIGN IN WITH FACEBOOK',
+                    buttonImage: Image.asset("assets/images/facebook.png"),
+                    url: AuthLoginPage(),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
