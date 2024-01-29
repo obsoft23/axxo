@@ -29,8 +29,9 @@ class OnBoarding extends StatelessWidget {
     ];
     return IntroScreenOnboarding(
       introductionList: list,
-      backgroudColor: const Color(0xFFf9f9f9),
-      foregroundColor: const Color(0xFFFA5672),
+
+      // backgroudColor: kDefaultIconDarkColor,
+      foregroundColor: Color.fromARGB(255, 51, 51, 32),
       onTapSkipButton: () => Navigator.push(
         context,
         MaterialPageRoute(

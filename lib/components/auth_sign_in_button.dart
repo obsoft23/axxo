@@ -27,10 +27,9 @@ class SignInButtonWidget extends StatelessWidget {
         width: double.infinity,
         height: 56.0,
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.blueGrey),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
+            border: Border.all(color: Colors.blueGrey),
+            // color: Colors.,
+            borderRadius: BorderRadius.circular(12.0)),
         child: Row(
           children: [
             SizedBox(

@@ -17,19 +17,26 @@ class AuthService {
       // timeout: Duration(seconds: 30),
       phoneNumber: phone,
       verificationCompleted: (phoneAuthCredential) async {
+        print("completed");
         return;
       },
       verificationFailed: (error) async {
+        print("completed$error");
         return;
       },
       codeSent: (verificationId, forceResendingToken) async {
+        //+44 7479 779589
         String smsCode = '455512';
         print("code sent$verifyId");
         Get.to(
           () => ConfirmOTPPage(
-              otpverficationId: verificationId, smsCode: smsCode),
+            otpverficationId: verificationId,
+            smsCode: smsCode,
+            phoneNo: phone,
+          ),
         );
       },
+
       codeAutoRetrievalTimeout: (verificationId) async {
         return;
       },

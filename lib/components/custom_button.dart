@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
+import 'package:vixo/theme/theme.dart';
 
 import '../constants.dart';
 
@@ -23,14 +24,18 @@ class CustomerAppButton extends StatelessWidget {
         width: double.infinity,
         height: 56.0,
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.blueGrey),
-            color: kPrimaryColor,
-            borderRadius: BorderRadius.circular(12.0)),
+          border: Border.all(color: Colors.blueGrey),
+          color: Colors.yellow,
+          borderRadius: BorderRadius.circular(12.0),
+        ),
         alignment: Alignment.center,
         child: Text(
           title,
           style: TextStyle(
-              color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w600),
+            color: kDefaultIconDarkColor,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );
@@ -64,7 +69,7 @@ class CustomerAppButton2 extends StatelessWidget {
           style: TextStyle(
               color: kPrimaryColor,
               fontSize: 18.0,
-              fontWeight: FontWeight.w600),
+              fontWeight: FontWeight.bold),
         ),
       ),
     );

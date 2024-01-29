@@ -5,6 +5,7 @@ import 'package:vixo/constants.dart';
 import 'package:vixo/components/responsive.dart';
 import 'package:vixo/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:vixo/theme/theme.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);

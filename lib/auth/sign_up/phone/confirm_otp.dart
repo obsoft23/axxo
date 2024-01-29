@@ -8,13 +8,18 @@ import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:pinput/pinput.dart';
+import 'package:vixo/auth/setup/create_email.dart';
 import 'package:vixo/components/custom_button.dart';
 import 'package:vixo/constants.dart';
 import 'package:vixo/screens/home.dart';
+import 'package:vixo/theme/theme.dart';
 
 class ConfirmOTPPage extends StatefulWidget {
   ConfirmOTPPage(
-      {super.key, required this.otpverficationId, required this.smsCode});
+      {super.key,
+      required this.otpverficationId,
+      required this.smsCode,
+      required this.phoneNo});
 
   String phoneNo = "";
   String otpverficationId = "";
@@ -40,113 +45,118 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
 
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(milliseconds: 30000), () {
-      setState(() {
-        bool resendTokenEnabled = false;
-      });
-    });
-
     return Scaffold(
-      appBar: AppBar(),
-      body: FractionallySizedBox(
-        widthFactor: 1,
-        child: Column(
-          children: [
-            Center(
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(color: kAltTextColor),
-                  children: [
-                    TextSpan(text: "Enter OTP For Your No:  "),
-                    TextSpan(
-                      //  text: "".replaceRange(3, 8, "*****"),
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: kAltDarkTextColor,
-                          fontSize: 18,
-                          decoration: TextDecoration.underline),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Directionality(
-                    // Specify direction if desired
-                    textDirection: TextDirection.ltr,
-                    child: Pinput(
-                      length: 6,
-                      autofocus: true,
-                      keyboardType: TextInputType.phone,
-                      focusNode: focusNode,
-                      androidSmsAutofillMethod:
-                          AndroidSmsAutofillMethod.smsUserConsentApi,
-                      listenForMultipleSmsOnAndroid: true,
-                      separatorBuilder: (index) => SizedBox(width: 4),
-                      validator: (value) {
-                        return value == widget.smsCode ? '' : 'OTP incorrect';
-                      },
-                      hapticFeedbackType: HapticFeedbackType.lightImpact,
-                      onCompleted: (pin) {
-                        debugPrint('onCompleted: $pin');
-                      },
-                      onChanged: (value) {
-                        debugPrint('onChanged: $value');
-                      },
-                      cursor: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 9),
-                            width: 10,
-                            height: 1,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Divider(),
-                  ),
-                  resendTokenEnabled
-                      ? Row(
-                          children: [
-                            TextButton(
-                              onPressed: () async {
-                                focusNode.unfocus();
-                                if (formKey.currentState!.validate()) {
-                                  return;
-                                } else {
-                                  resendToken();
-                                  return;
-                                }
-                              },
-                              child: Text(
-                                'Resend Token',
-                                style: TextStyle(color: kDefaultIconDarkColor),
-                              ),
-                            ),
-                          ],
-                        )
-                      : SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(),
-                        ),
-                ],
-              ),
-            ),
-          ],
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: kDefaultIconDarkColor, //change your color here
         ),
+        title: Text(
+          "Confirm Token",
+          style: TextStyle(color: kPrimaryColor),
+        ),
+      ),
+      body: Column(
+        children: [
+          FractionallySizedBox(
+            widthFactor: 1,
+            child: Column(
+              children: [
+                Center(
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: TextStyle(color: kAltTextColor),
+                      children: [
+                        TextSpan(text: "Please enter SMS Token :  "),
+                        TextSpan(
+                          text: widget.phoneNo.replaceRange(3, 10, "*****"),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: kAltDarkTextColor,
+                              fontSize: 14,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Directionality(
+                        // Specify direction if desired
+                        textDirection: TextDirection.ltr,
+                        child: Pinput(
+                          length: 6,
+                          autofocus: true,
+                          keyboardType: TextInputType.phone,
+                          focusNode: focusNode,
+                          androidSmsAutofillMethod:
+                              AndroidSmsAutofillMethod.smsUserConsentApi,
+                          listenForMultipleSmsOnAndroid: true,
+                          separatorBuilder: (index) => SizedBox(width: 4),
+                          validator: (value) {
+                            return value == widget.smsCode
+                                ? 'correct'
+                                : 'incorrect';
+                          },
+                          hapticFeedbackType: HapticFeedbackType.lightImpact,
+                          onCompleted: (pin) async {
+                            if (pin == widget.smsCode) {
+                              nextPage();
+                            } else {
+                              bool resendTokenEnabled = false;
+                              setState(() {});
+                              return;
+                            }
+                          },
+                          onChanged: (value) {},
+                          cursor: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 9),
+                                width: 10,
+                                height: 1,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      resendTokenEnabled
+                          ? Row(
+                              children: [
+                                TextButton(
+                                  onPressed: () async {
+                                    focusNode.unfocus();
+                                    if (formKey.currentState!.validate()) {
+                                      return;
+                                    } else {
+                                      resendToken();
+                                      return;
+                                    }
+                                  },
+                                  child: Text(
+                                    'Resend Token',
+                                    style:
+                                        TextStyle(color: kDefaultIconDarkColor),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Container()
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -160,7 +170,7 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
 
     // Sign the user in (or link) with the credential
     await FirebaseAuth.instance.signInWithCredential(credential);
-    Get.to(HomePage());
+    Get.to(CreateEmailPage());
     return "";
   }
 

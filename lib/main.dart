@@ -1,11 +1,15 @@
 // ignore_for_file: prefer_const_constructors, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:vixo/auth/setup/create_email.dart';
+import 'package:vixo/auth/setup/create_username.dart';
 import 'package:vixo/auth/sign_up/phone/confirm_otp.dart';
+import 'package:vixo/intro_screen/app_location_permission_page.dart';
 import 'package:vixo/intro_screen/on_boarding.dart';
 import 'package:get/get.dart';
 import 'package:ios_willpop_transition_theme/ios_willpop_transition_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'auth/setup/add_partner.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -13,7 +17,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -28,9 +32,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         /* dark theme settings */
 
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFFA5672)),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
         fontFamily: 'Satoshi',
-        // primaryColor: Colors.pink,
+        primaryColor: Colors.blue,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
             TargetPlatform.iOS: IOSWillPopTransitionsBuilder(),
@@ -40,7 +44,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: OnBoarding(),
-      //home: ConfirmOTPPage(phoneNo: ""),
+      //home: PermissionRequestPage
     );
   }
 }
