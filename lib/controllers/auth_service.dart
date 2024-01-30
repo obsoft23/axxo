@@ -1,8 +1,11 @@
-// ignore_for_file: prefer_const_constructors, unused_local_variable, avoid_print, duplicate_ignore, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, unused_local_variable, avoid_print, duplicate_ignore, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, unused_element, empty_catches, unused_import
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:vixo/auth/setup/create_email.dart';
 import 'package:vixo/auth/sign_up/phone/confirm_otp.dart';
+import 'package:vixo/intro_screen/on_boarding.dart';
+import 'package:vixo/screens/home.dart';
 
 class AuthService {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

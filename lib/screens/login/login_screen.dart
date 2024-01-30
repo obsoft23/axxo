@@ -3,7 +3,6 @@
 import 'package:vixo/auth/sign_in/sign_in.dart';
 import 'package:vixo/auth/sign_up/phone/sign_up.dart';
 import 'package:vixo/components/custom_button.dart';
-import 'package:vixo/constants.dart';
 import 'package:vixo/components/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,15 +35,6 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            /* Text(
-              'JuSTUZ',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w600,
-                color: Color.fromARGB(255, 156, 145, 43),
-                fontFamily: "walto",
-              ),
-            ),*/
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -52,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                   CreateAccountButton(),
                   SizedBox(height: 20),
                   CustomerAppButton(
-                    title: 'Sign In',
+                    title: 'Login',
                     url: SignInPage(title: "Login to your account"),
                   ),
                   SizedBox(height: kDefaultPadding / 2),
@@ -104,15 +94,10 @@ class CreateAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        /* Navigator.of(context).push(
-          WillPopPageRoute(
-            builder: (_) => const CreateUserPage(),
-          ),
-        );*/
         Navigator.of(context).push(
           WillPopPageRoute(
             builder: (_) => SignUpPhoneNoPage(
-              title: "Create Account",
+              title: "Create your Profile",
             ),
           ),
         );
@@ -129,10 +114,10 @@ class CreateAccountButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Create Account",
+              "Create account",
               style: TextStyle(
                 color: kPrimaryColor,
-                fontSize: 18.0,
+                fontSize: 19.0,
                 fontWeight: FontWeight.w600,
               ),
             ),

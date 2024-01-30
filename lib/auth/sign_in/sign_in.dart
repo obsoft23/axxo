@@ -1,10 +1,12 @@
 // ignore_for_file: must_be_immutable, unused_field, prefer_final_fields, prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_print, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinput/pinput.dart';
 import 'package:toastification/toastification.dart';
 import 'package:vixo/constants.dart';
+import 'package:vixo/controllers/auth_controller.dart';
 import 'package:vixo/controllers/auth_service.dart';
 import 'package:vixo/theme/theme.dart';
 
@@ -20,16 +22,18 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   TextEditingController _phoneContoller = TextEditingController();
   TextEditingController _otpContoller = TextEditingController();
+  final AuthController authController = Get.find<AuthController>();
 
   final _formkey = GlobalKey<FormState>();
   final _formkey1 = GlobalKey<FormState>();
   String phoneNo = "";
 
-  bool isValid = false;
+  bool _isTextFieldFilled = false;
 
   @override
   void initState() {
     super.initState();
+    _phoneContoller.addListener(_checkTextField);
   }
 
   @override
@@ -38,6 +42,15 @@ class _SignInPageState extends State<SignInPage> {
     _phoneContoller.dispose();
     _otpContoller.dispose();
     super.dispose();
+  }
+
+  void _checkTextField() {
+    final String enteredText = _phoneContoller.text;
+    final bool isValid = RegExp(r'^[0-9]{10}$').hasMatch(enteredText);
+
+    setState(() {
+      _isTextFieldFilled = isValid;
+    });
   }
 
   @override
@@ -59,10 +72,18 @@ class _SignInPageState extends State<SignInPage> {
         child: InkWell(
           onTap: () {
             if (_formkey.currentState!.validate()) {
-              AuthService.sentOtp(
-                phone: phoneNo,
-                errorStep: () => print("Error Sending OTP"),
-              );
+              _isTextFieldFilled
+                  ? authController.phoneVerify(phoneNo)
+                  : toastification.show(
+                      type: ToastificationType.warning,
+                      style: ToastificationStyle.flat,
+                      alignment: Alignment.centerLeft,
+                      backgroundColor: Colors.yellow,
+                      applyBlurEffect: true,
+                      context: context,
+                      title: Text('Please Enter Valid Phone No'),
+                      autoCloseDuration: const Duration(seconds: 3),
+                    );
             } else {
               toastification.show(
                 type: ToastificationType.warning,
@@ -81,7 +102,7 @@ class _SignInPageState extends State<SignInPage> {
             height: 56.0,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
-              color: kDarkGreyColor,
+              color: _isTextFieldFilled ? kPrimaryColor2 : kDarkGreyColor,
               borderRadius: BorderRadius.circular(12.0),
             ),
             child: Row(

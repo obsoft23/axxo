@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'package:vixo/components/custom_button.dart';
-import 'package:vixo/constants.dart';
 import 'package:vixo/components/responsive.dart';
 import 'package:vixo/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';

@@ -67,7 +67,7 @@ class _LocationPermissionRequestPageState
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Never miss your partner whereabouts, keep in touch easy. ",
+                "Never worry about your partner whereabouts, keep in touch easy. ",
                 style: subTitle,
               ),
             ),

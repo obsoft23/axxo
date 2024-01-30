@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:vixo/auth/setup/create_email.dart';
 import 'package:vixo/auth/setup/create_username.dart';
 import 'package:vixo/auth/sign_up/phone/confirm_otp.dart';
+import 'package:vixo/controllers/auth_controller.dart';
 import 'package:vixo/intro_screen/app_location_permission_page.dart';
 import 'package:vixo/intro_screen/on_boarding.dart';
 import 'package:get/get.dart';
 import 'package:ios_willpop_transition_theme/ios_willpop_transition_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:vixo/screens/home.dart';
 import 'auth/setup/add_partner.dart';
 import 'firebase_options.dart';
 
@@ -16,7 +18,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );
+  ).then((value) {
+    Get.put(AuthController());
+  });
   runApp(MyApp());
 }
 
@@ -27,6 +31,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      getPages: [
+        GetPage(name: '/home', page: () => HomePage()),
+        GetPage(name: '/onboarding', page: () => OnBoarding()),
+      ],
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -43,8 +51,13 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      home: OnBoarding(),
-      //home: PermissionRequestPage
+      home: Center(
+        child: SizedBox(
+          width: 30,
+          height: 30,
+          child: Image.asset("assets/images/loading.gif"),
+        ),
+      ),
     );
   }
 }

@@ -28,9 +28,11 @@ class _SignUpPhoneNoPageState extends State<SignUpPhoneNoPage> {
   final _formkey = GlobalKey<FormState>();
   final _formkey1 = GlobalKey<FormState>();
   String phoneNo = "";
+  bool _isTextFieldFilled = false;
 
   @override
   void initState() {
+    _phoneContoller.addListener(_checkTextField);
     super.initState();
   }
 
@@ -40,6 +42,15 @@ class _SignUpPhoneNoPageState extends State<SignUpPhoneNoPage> {
     _phoneContoller.dispose();
     _otpContoller.dispose();
     super.dispose();
+  }
+
+  void _checkTextField() {
+    final String enteredText = _phoneContoller.text;
+    final bool isValid = RegExp(r'^[0-9]{10}$').hasMatch(enteredText);
+
+    setState(() {
+      _isTextFieldFilled = isValid;
+    });
   }
 
   @override
@@ -61,10 +72,18 @@ class _SignUpPhoneNoPageState extends State<SignUpPhoneNoPage> {
           child: InkWell(
             onTap: () {
               if (_formkey.currentState!.validate()) {
-                AuthService.sentOtp(
-                  phone: phoneNo,
-                  errorStep: () => print("Error Sending OTP"),
-                );
+                _isTextFieldFilled
+                    ? authController.phoneVerify(phoneNo)
+                    : toastification.show(
+                        type: ToastificationType.warning,
+                        style: ToastificationStyle.flat,
+                        alignment: Alignment.centerLeft,
+                        backgroundColor: Colors.yellow,
+                        applyBlurEffect: true,
+                        context: context,
+                        title: Text('Please Enter Valid Phone No'),
+                        autoCloseDuration: const Duration(seconds: 3),
+                      );
               } else {
                 toastification.show(
                   type: ToastificationType.warning,
@@ -83,7 +102,7 @@ class _SignUpPhoneNoPageState extends State<SignUpPhoneNoPage> {
               height: 56.0,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
-                color: kDarkGreyColor,
+                color: _isTextFieldFilled ? kPrimaryColor2 : kDarkGreyColor,
                 borderRadius: BorderRadius.circular(12.0),
               ),
               child: Row(

@@ -14,6 +14,10 @@ const kZambeziColor = Color(0xFF5B5B5B);
 const kBlackColor = Color(0xFF272726);
 const kTextFieldColor = Color(0xFF979797);
 const kDefaultPadding = 28.0;
+const kTextColor = Color(0xFF1C1C1C);
+const kLightTextColor = Color(0xFF363636);
+const kAltTextColor = Color(0xFFBBBBBB);
+const kAltDarkTextColor = Color(0xFF9D9D9D);
 
 TextStyle titleText =
     TextStyle(color: kPrimaryColor, fontSize: 28, fontWeight: FontWeight.w700);

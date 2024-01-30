@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +15,33 @@ class ProvideAccountUsername extends StatefulWidget {
 class _ProvideAccountUsernameState extends State<ProvideAccountUsername> {
   bool _isObscured = false;
 
+  bool _isTextFieldFilled = false;
+  TextEditingController _usernameController = TextEditingController();
+
+  @override
+  void initState() {
+    _usernameController.addListener(_checkTextField);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    super.dispose();
+  }
+
+  void _checkTextField() {
+    if (_usernameController.text.length > 2) {
+      setState(() {
+        _isTextFieldFilled = true;
+      });
+    } else {
+      setState(() {
+        _isTextFieldFilled = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +55,36 @@ class _ProvideAccountUsernameState extends State<ProvideAccountUsername> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: UsernameNextButton(),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InkWell(
+          onTap: () {
+            Get.to(() => AddPartnerPage());
+          },
+          child: Ink(
+            width: double.infinity,
+            height: 56.0,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blueGrey),
+              borderRadius: BorderRadius.circular(12.0),
+              color: _isTextFieldFilled ? kPrimaryColor2 : kDarkGreyColor,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Next",
+                  style: TextStyle(
+                    color: kDefaultIconDarkColor,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Row(
@@ -54,6 +110,7 @@ class _ProvideAccountUsernameState extends State<ProvideAccountUsername> {
 
   Widget buildForm(String label, bool pass) {
     return TextFormField(
+      controller: _usernameController,
       obscureText: pass ? _isObscured : false,
       decoration: InputDecoration(
         labelText: label,
@@ -76,46 +133,6 @@ class _ProvideAccountUsernameState extends State<ProvideAccountUsername> {
                 },
               )
             : null,
-      ),
-    );
-  }
-}
-
-class UsernameNextButton extends StatelessWidget {
-  const UsernameNextButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: InkWell(
-        onTap: () {
-          Get.to(() => AddPartnerPage());
-        },
-        child: Ink(
-          width: double.infinity,
-          height: 56.0,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.blueGrey),
-            borderRadius: BorderRadius.circular(12.0),
-            color: kDarkGreyColor,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Next",
-                style: TextStyle(
-                  color: kDefaultIconDarkColor,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

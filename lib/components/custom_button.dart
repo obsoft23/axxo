@@ -33,7 +33,7 @@ class CustomerAppButton extends StatelessWidget {
           title,
           style: TextStyle(
             color: kDefaultIconDarkColor,
-            fontSize: 18.0,
+            fontSize: 20.0,
             fontWeight: FontWeight.w600,
           ),
         ),

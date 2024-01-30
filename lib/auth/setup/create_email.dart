@@ -15,6 +15,30 @@ class CreateEmailPage extends StatefulWidget {
 class _CreateEmailPageState extends State<CreateEmailPage> {
   bool _isObscured = false;
 
+  bool _isTextFieldFilled = false;
+  TextEditingController _emailController = TextEditingController();
+
+  @override
+  void initState() {
+    _emailController.addListener(_checkTextField);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  void _checkTextField() {
+    final String enteredText = _emailController.text.trim();
+    final bool isValid = RegExp(r'^[0-9]{10}$').hasMatch(enteredText);
+
+    setState(() {
+      _isTextFieldFilled = isValid;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +64,7 @@ class _CreateEmailPageState extends State<CreateEmailPage> {
             decoration: BoxDecoration(
               border: Border.all(color: Colors.blueGrey),
               borderRadius: BorderRadius.circular(12.0),
-              color: kDarkGreyColor,
+              color: _isTextFieldFilled ? kPrimaryColor2 : kDarkGreyColor,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -83,6 +107,7 @@ class _CreateEmailPageState extends State<CreateEmailPage> {
 
   Widget buildForm(String label, bool pass) {
     return TextFormField(
+      controller: _emailController,
       obscureText: pass ? _isObscured : false,
       decoration: InputDecoration(
         labelText: label,

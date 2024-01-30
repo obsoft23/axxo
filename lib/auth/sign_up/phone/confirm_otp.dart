@@ -11,6 +11,7 @@ import 'package:pinput/pinput.dart';
 import 'package:vixo/auth/setup/create_email.dart';
 import 'package:vixo/components/custom_button.dart';
 import 'package:vixo/constants.dart';
+import 'package:vixo/controllers/auth_controller.dart';
 import 'package:vixo/screens/home.dart';
 import 'package:vixo/theme/theme.dart';
 
@@ -36,8 +37,11 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
   bool resendTokenEnabled = false;
   bool showNextButton = false;
 
+  final authController = Get.find<AuthController>();
+
   @override
   void dispose() {
+    pinController.delete();
     pinController.dispose();
     focusNode.dispose();
     super.dispose();
@@ -93,7 +97,10 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
                         textDirection: TextDirection.ltr,
                         child: Pinput(
                           length: 6,
+                          pinputAutovalidateMode:
+                              PinputAutovalidateMode.onSubmit,
                           autofocus: true,
+                          showCursor: true,
                           keyboardType: TextInputType.phone,
                           focusNode: focusNode,
                           androidSmsAutofillMethod:
@@ -110,7 +117,7 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
                             if (pin == widget.smsCode) {
                               nextPage();
                             } else {
-                              bool resendTokenEnabled = false;
+                              bool resendTokenEnabled = true;
                               setState(() {});
                               return;
                             }
@@ -129,27 +136,47 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
                         ),
                       ),
                       resendTokenEnabled
-                          ? Row(
+                          ? Container()
+                          : Column(
                               children: [
-                                TextButton(
-                                  onPressed: () async {
-                                    focusNode.unfocus();
-                                    if (formKey.currentState!.validate()) {
-                                      return;
-                                    } else {
-                                      resendToken();
-                                      return;
-                                    }
-                                  },
-                                  child: Text(
-                                    'Resend Token',
-                                    style:
-                                        TextStyle(color: kDefaultIconDarkColor),
-                                  ),
+                                Text(
+                                  "Didn't recieve any code ?",
+                                  style: subTitle,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: InkWell(
+                                        onTap: () {
+                                          focusNode.unfocus();
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            return;
+                                          } else {
+                                            resendToken();
+                                            return;
+                                          }
+                                        },
+                                        child: Ink(
+                                          child: Text(
+                                            'Resend Token',
+                                            style: TextStyle(
+                                              color: kDefaultIconDarkColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             )
-                          : Container()
                     ],
                   ),
                 ),
@@ -174,7 +201,7 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
     return "";
   }
 
-  void resendToken() {
+  void resendToken() async {
     print("to resend Token");
   }
 }

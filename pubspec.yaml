@@ -54,6 +54,7 @@ dependencies:
   image_picker: ^1.0.7
   textfields: ^0.0.3
   google_maps_flutter: ^2.5.3
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

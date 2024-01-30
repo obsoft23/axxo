@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +15,33 @@ class AddPartnerPage extends StatefulWidget {
 
 class _AddPartnerPageState extends State<AddPartnerPage> {
   bool _isObscured = false;
+
+  bool _isTextFieldFilled = false;
+  TextEditingController _addPartnerControllerText = TextEditingController();
+
+  @override
+  void initState() {
+    _addPartnerControllerText.addListener(_checkTextField);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _addPartnerControllerText.dispose();
+    super.dispose();
+  }
+
+  void _checkTextField() {
+    if (_addPartnerControllerText.text.isNotEmpty) {
+      setState(() {
+        _isTextFieldFilled = true;
+      });
+    } else {
+      setState(() {
+        _isTextFieldFilled = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +68,7 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
             decoration: BoxDecoration(
               border: Border.all(color: Colors.blueGrey),
               borderRadius: BorderRadius.circular(12.0),
-              color: kDarkGreyColor,
+              color: _isTextFieldFilled ? kPrimaryColor2 : kDarkGreyColor,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
