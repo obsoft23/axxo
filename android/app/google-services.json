@@ -12,7 +12,12 @@
           "package_name": "com.example.vixo"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "466382031798-keoqcnbg3vnggj7ovo2mk7o3mee0oek5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB-xpkCnsmnceJ75cd-XQpJtUiEuh-3-ss"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "466382031798-keoqcnbg3vnggj7ovo2mk7o3mee0oek5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "466382031798-p0mtrn0s67u23aateek8vql03t1trd7n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.vixo"
+              }
+            }
+          ]
         }
       }
     }

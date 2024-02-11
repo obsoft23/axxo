@@ -1,8 +1,10 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intro_screen_onboarding_flutter/introduction.dart';
 import 'package:intro_screen_onboarding_flutter/introscreenonboarding.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vixo/screens/login/login_screen.dart';
 
 class OnBoarding extends StatelessWidget {
@@ -22,22 +24,20 @@ class OnBoarding extends StatelessWidget {
         imageUrl: 'assets/images/onboarding2.png',
       ),
       Introduction(
-        title: 'Immediate Touch',
-        subTitle: 'Pick up delivery at your door and enjoy groceries',
+        title: 'Get Started',
+        subTitle: 'Enjoy the features of this app.',
         imageUrl: 'assets/images/onboarding1.png',
       ),
     ];
     return IntroScreenOnboarding(
       introductionList: list,
-
-      // backgroudColor: kDefaultIconDarkColor,
       foregroundColor: Color.fromARGB(255, 51, 51, 32),
-      onTapSkipButton: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LoginScreen(),
-        ),
-      ),
+      onTapSkipButton: () async {
+        // Obtain shared preferences.
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final shownOnboarding = await prefs.setBool('first_time', true);
+        Get.offAll(() => LoginScreen());
+      },
       skipTextStyle: const TextStyle(color: Colors.blueGrey, fontSize: 18),
     );
   }

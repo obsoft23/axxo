@@ -11,8 +11,9 @@ import 'package:vixo/controllers/auth_service.dart';
 import 'package:vixo/theme/theme.dart';
 
 class SignInPage extends StatefulWidget {
-  SignInPage({super.key, required this.title});
-  String title = "";
+  SignInPage({super.key, this.title});
+  // ignore: prefer_typing_uninitialized_variables
+  var title;
   bool isValidPhone = false;
 
   @override
@@ -67,60 +68,11 @@ class _SignInPageState extends State<SignInPage> {
         centerTitle: true,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: InkWell(
-          onTap: () {
-            if (_formkey.currentState!.validate()) {
-              _isTextFieldFilled
-                  ? authController.phoneVerify(phoneNo)
-                  : toastification.show(
-                      type: ToastificationType.warning,
-                      style: ToastificationStyle.flat,
-                      alignment: Alignment.centerLeft,
-                      backgroundColor: Colors.yellow,
-                      applyBlurEffect: true,
-                      context: context,
-                      title: Text('Please Enter Valid Phone No'),
-                      autoCloseDuration: const Duration(seconds: 3),
-                    );
-            } else {
-              toastification.show(
-                type: ToastificationType.warning,
-                style: ToastificationStyle.flat,
-                alignment: Alignment.centerLeft,
-                backgroundColor: Colors.yellow,
-                applyBlurEffect: true,
-                context: context,
-                title: Text('Please Enter Valid Phone No'),
-                autoCloseDuration: const Duration(seconds: 3),
-              );
-            }
-          },
-          child: Ink(
-            width: double.infinity,
-            height: 56.0,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              color: _isTextFieldFilled ? kPrimaryColor2 : kDarkGreyColor,
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Send OTP",
-                  style: TextStyle(
-                    color: kDefaultIconDarkColor,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      floatingActionButton: SignInButton(
+          formkey: _formkey,
+          isTextFieldFilled: _isTextFieldFilled,
+          authController: authController,
+          phoneNo: phoneNo),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
@@ -171,6 +123,81 @@ class _SignInPageState extends State<SignInPage> {
               ),
               SizedBox(
                 height: 5,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SignInButton extends StatelessWidget {
+  const SignInButton({
+    super.key,
+    required GlobalKey<FormState> formkey,
+    required bool isTextFieldFilled,
+    required this.authController,
+    required this.phoneNo,
+  })  : _formkey = formkey,
+        _isTextFieldFilled = isTextFieldFilled;
+
+  final GlobalKey<FormState> _formkey;
+  final bool _isTextFieldFilled;
+  final AuthController authController;
+  final String phoneNo;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
+          if (_formkey.currentState!.validate()) {
+            _isTextFieldFilled
+                ? // authController.phoneVerify(phoneNo)
+                null
+                : toastification.show(
+                    type: ToastificationType.warning,
+                    style: ToastificationStyle.flat,
+                    alignment: Alignment.centerLeft,
+                    backgroundColor: Colors.yellow,
+                    applyBlurEffect: true,
+                    context: context,
+                    title: Text('Please Enter Valid Phone No'),
+                    autoCloseDuration: const Duration(seconds: 3),
+                  );
+          } else {
+            toastification.show(
+              type: ToastificationType.warning,
+              style: ToastificationStyle.flat,
+              alignment: Alignment.centerLeft,
+              backgroundColor: Colors.yellow,
+              applyBlurEffect: true,
+              context: context,
+              title: Text('Please Enter Valid Phone No'),
+              autoCloseDuration: const Duration(seconds: 3),
+            );
+          }
+        },
+        child: Ink(
+          width: double.infinity,
+          height: 56.0,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            color: _isTextFieldFilled ? kPrimaryColor2 : kDarkGreyColor,
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Send OTP",
+                style: TextStyle(
+                  color: kDefaultIconDarkColor,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),

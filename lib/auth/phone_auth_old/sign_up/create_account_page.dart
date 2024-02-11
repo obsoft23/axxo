@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:vixo/auth/sign_up/phone/sign_up.dart';
 import 'package:vixo/components/auth_sign_in_button.dart';
 import 'package:vixo/components/responsive.dart';
 
@@ -46,11 +45,6 @@ class _CreateUserPageState extends State<CreateUserPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    SignInButtonWidget(
-                      buttonText: 'SIGN UP WITH PHONE NO',
-                      buttonImage: Image.asset("assets/images/phone.png"),
-                      url: SignUpPhoneNoPage(title: "S"),
-                    ),
                     SizedBox(
                       height: 10,
                     ),
@@ -80,52 +74,6 @@ class _CreateUserPageState extends State<CreateUserPage> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-
-//
-
-class CreateAccountButton extends StatelessWidget {
-  const CreateAccountButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).push(
-          WillPopPageRoute(
-            builder: (_) => SignUpPhoneNoPage(
-              title: "Create your profile",
-            ),
-          ),
-        );
-      },
-      child: Ink(
-        width: double.infinity,
-        height: 56.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.blueGrey),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Sign up",
-              style: TextStyle(
-                color: kPrimaryColor,
-                fontSize: 19.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
         ),
       ),
     );

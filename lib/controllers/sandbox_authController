@@ -1,0 +1,231 @@
+
+  //User? user = auth.currentUser;
+
+  late Rx<User?> user;
+  var page = 0.obs;
+  var userFirstime = true.obs;
+
+  @override
+  void onInit() {
+    // Get called when controller is created
+    super.onInit();
+    // Listen for changes in user authentication status
+    /* auth.authStateChanges().listen((User? user) {
+      print("user updates $user");
+      user = user;
+    });*/
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    //Get called after widget is rendered on the screen
+
+    user = Rx<User?>(auth.currentUser);
+
+    user.bindStream(auth.userChanges());
+    ever(user, _setInitialScreen);
+  }
+
+  @override
+  void onClose() {
+    //Get called when controller is removed from memory
+    super.onClose();
+  }
+
+  _setInitialScreen(User? user) async {
+    print("on this set intial page  $user");
+    if (user == null) {
+      // Obtain shared preferences.
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final bool? first_time = prefs.getBool('first_time');
+      // User is not signed in, redirect to login page
+      if (first_time != null) {
+        Get.offAll(() => CreateAccountPage());
+
+        //  Get.offNamed('/login_options');
+        return;
+      } else {
+        Get.offNamed('/onboarding');
+        return;
+      }
+    } else {
+      // User is signed in, check additional user information
+      user = auth.currentUser;
+      //print("user $user");
+      print("auth user ${auth.currentUser}");
+
+      Get.offAll(() => CreateEmailPage());
+      return;
+    }
+  }
+
+  phoneVerify(phone) async {
+    await auth
+        .verifyPhoneNumber(
+      // timeout: Duration(seconds: 30),
+      phoneNumber: phone,
+      verificationCompleted: (phoneAuthCredential) async {
+        print("completed auth");
+        return;
+      },
+      verificationFailed: (error) async {
+        print("verification error$error");
+        return;
+      },
+      codeSent: (verificationId, forceResendingToken) async {
+        //+44 7479 779589
+        String smsCode = '455512';
+        print("code sent");
+        Get.to(
+          () => ConfirmOTPPage(
+            otpverficationId: verificationId,
+            smsCode: smsCode,
+            phoneNo: phone,
+          ),
+        );
+      },
+
+      codeAutoRetrievalTimeout: (verificationId) async {
+        return;
+      },
+    )
+        .onError((error, stackTrace) {
+      print("error");
+    });
+  }
+
+  createNewUser(otpverficationId, token, phone) async {
+    try {
+      QuerySnapshot displayNameSnapshot = await firestore
+          .collection('users')
+          .where('phoneNumber', isEqualTo: phone)
+          .get();
+      if (displayNameSnapshot.docs.isEmpty) {
+        AuthCredential credential = PhoneAuthProvider.credential(
+            verificationId: otpverficationId, smsCode: token);
+        print("user signed in");
+
+        UserCredential userCredential =
+            await auth.signInWithCredential(credential);
+        User user = userCredential.user!;
+        print("user to be  created");
+
+        // Create a document in the 'users' collection with the user's UID 44 7479 779589
+        await firestore.collection('users').doc(user.uid).set({
+          'phoneNumber': phone,
+        }).then((value) {
+          print('User Email created successfully');
+          Get.offAll(() => CreateEmailPage());
+        });
+      } else {}
+
+      return;
+    } catch (firebaseAuthException) {
+      print("Expection to create user $firebaseAuthException");
+    }
+  }
+
+  createUserName(context, username) async {
+    QuerySnapshot displayNameSnapshot = await firestore
+        .collection('users')
+        .where('displayName', isEqualTo: username)
+        .get();
+    if (displayNameSnapshot.docs.isEmpty) {
+      // Update the display name if it doesn't exist
+      await auth.currentUser?.updateDisplayName(username);
+
+      // Update display name in Firestore as well
+      await firestore.collection('users').doc(auth.currentUser?.uid).update({
+        'displayName': username,
+      });
+
+      print('Display name updated successfully');
+
+      Get.to(() => AddPartnerPage());
+    } else {
+      print('Display name already exists. Please choose a different one.');
+      toastification.show(
+        type: ToastificationType.warning,
+        style: ToastificationStyle.flat,
+        alignment: Alignment.centerLeft,
+        backgroundColor: Colors.pinkAccent,
+        applyBlurEffect: true,
+        context: context,
+        title: Text('Display name not available.'),
+        autoCloseDuration: const Duration(seconds: 3),
+      );
+    }
+  }
+
+  phoneSignIn(otpverficationId, token, phone) async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: otpverficationId,
+      smsCode: token,
+    );
+
+    try {
+      UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+      User user = userCredential.user!;
+
+      return;
+    } catch (firebaseAuthException) {}
+  }
+
+  void logout() async {
+    try {
+      auth.signOut();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool('first_time', false);
+      Get.offAll(() => OnBoarding());
+    } catch (firebaseAuthException) {
+      print("error logging out : \n $firebaseAuthException");
+    }
+  }
+
+  checkIfHasEmail() async {
+    // Query the Firestore collection for the user document
+    try {
+      User? user = auth.currentUser;
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await firestore.collection('users').doc(user!.uid).get();
+
+      // Check if the user document exists and contains an email field
+      Map<String, dynamic>? userData = userSnapshot.data();
+
+      if (userData != null && userData.containsKey('email')) {
+        // If the user has an email field, redirect to the username creation page
+        Get.offAll(() => ProvideAccountUsername());
+      }
+    } catch (error) {
+      print("error logging out : \n $error");
+    }
+  }
+
+  checkIfHasUsername() async {
+    // Query the Firestore collection for the user document
+    try {
+      User? user = auth.currentUser;
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await firestore.collection('users').doc(user!.uid).get();
+
+      // Check if the user document exists and contains an email field
+      Map<String, dynamic>? userData = userSnapshot.data();
+
+      if (userData != null && userData.containsKey('displayName')) {
+        // If the user has an username field, redirect to the username creation page
+        Get.offAll(() => AddPartnerPage());
+      }
+    } catch (error) {
+      print("error logging out : \n $error");
+    }
+  }
+
+   // Update the current user's document with the partner ID and partnerConfirmed field
+        /* await firestore.collection('users').doc(currentUser!.uid).update({
+          'partnerId': partnerUserId,
+          'partnerConfirmed': false,
+        }).then((value) {
+          Get.offAll(() => PartnerConfirmationPage());
+        });*/

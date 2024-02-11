@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, avoid_print, prefer_final_fields, unused_field, must_be_immutable
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_import, avoid_print, prefer_final_fields, unused_field, must_be_immutable, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,15 +7,15 @@ import 'package:ios_willpop_transition_theme/ios_willpop_transition_theme.dart';
 import 'package:pinput/pinput.dart';
 import 'package:simple_snackbar/simple_snackbar.dart';
 import 'package:toastification/toastification.dart';
-import 'package:vixo/auth/sign_in/sign_in.dart';
-import 'package:vixo/auth/sign_up/phone/confirm_otp.dart';
+import 'package:vixo/auth/phone_auth_old/sign_in/phone_sign_in.dart';
+import 'package:vixo/auth/phone_auth_old/sign_up/confirm_otp.dart';
 import 'package:vixo/constants.dart';
 import 'package:vixo/controllers/auth_service.dart';
 import 'package:vixo/theme/theme.dart';
 
 class SignUpPhoneNoPage extends StatefulWidget {
-  SignUpPhoneNoPage({super.key, required this.title});
-  String title = "";
+  SignUpPhoneNoPage({super.key, this.title});
+  var title;
 
   @override
   State<SignUpPhoneNoPage> createState() => _SignUpPhoneNoPageState();
@@ -67,59 +67,11 @@ class _SignUpPhoneNoPageState extends State<SignUpPhoneNoPage> {
         centerTitle: true,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            onTap: () {
-              if (_formkey.currentState!.validate()) {
-                _isTextFieldFilled
-                    ? authController.phoneVerify(phoneNo)
-                    : toastification.show(
-                        type: ToastificationType.warning,
-                        style: ToastificationStyle.flat,
-                        alignment: Alignment.centerLeft,
-                        backgroundColor: Colors.yellow,
-                        applyBlurEffect: true,
-                        context: context,
-                        title: Text('Please Enter Valid Phone No'),
-                        autoCloseDuration: const Duration(seconds: 3),
-                      );
-              } else {
-                toastification.show(
-                  type: ToastificationType.warning,
-                  style: ToastificationStyle.flat,
-                  alignment: Alignment.centerLeft,
-                  backgroundColor: Colors.yellow,
-                  applyBlurEffect: true,
-                  context: context,
-                  title: Text('Please Enter Valid Phone No'),
-                  autoCloseDuration: const Duration(seconds: 3),
-                );
-              }
-            },
-            child: Ink(
-              width: double.infinity,
-              height: 56.0,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                color: _isTextFieldFilled ? kPrimaryColor2 : kDarkGreyColor,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Send OTP",
-                    style: TextStyle(
-                      color: kDefaultIconDarkColor,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )),
+      floatingActionButton: SignUpButton(
+        formkey: _formkey,
+        isTextFieldFilled: _isTextFieldFilled,
+        phoneNo: phoneNo,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
@@ -176,5 +128,77 @@ class _SignUpPhoneNoPageState extends State<SignUpPhoneNoPage> {
         ),
       ),
     );
+  }
+}
+
+class SignUpButton extends StatelessWidget {
+  const SignUpButton({
+    super.key,
+    required GlobalKey<FormState> formkey,
+    required bool isTextFieldFilled,
+    required this.phoneNo,
+  })  : _formkey = formkey,
+        _isTextFieldFilled = isTextFieldFilled;
+
+  final GlobalKey<FormState> _formkey;
+  final bool _isTextFieldFilled;
+  final String phoneNo;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InkWell(
+          onTap: () {
+            if (_formkey.currentState!.validate()) {
+              _isTextFieldFilled
+                  ? //authController.phoneVerify(phoneNo)
+                  null
+                  : toastification.show(
+                      type: ToastificationType.warning,
+                      style: ToastificationStyle.flat,
+                      alignment: Alignment.centerLeft,
+                      backgroundColor: Colors.yellow,
+                      applyBlurEffect: true,
+                      context: context,
+                      title: Text('Please Enter Valid Phone No'),
+                      autoCloseDuration: const Duration(seconds: 3),
+                    );
+            } else {
+              toastification.show(
+                type: ToastificationType.warning,
+                style: ToastificationStyle.flat,
+                alignment: Alignment.centerLeft,
+                backgroundColor: Colors.yellow,
+                applyBlurEffect: true,
+                context: context,
+                title: Text('Please Enter Valid Phone No'),
+                autoCloseDuration: const Duration(seconds: 3),
+              );
+            }
+          },
+          child: Ink(
+            width: double.infinity,
+            height: 56.0,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              color: _isTextFieldFilled ? kPrimaryColor2 : kDarkGreyColor,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Send OTP",
+                  style: TextStyle(
+                    color: kDefaultIconDarkColor,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }

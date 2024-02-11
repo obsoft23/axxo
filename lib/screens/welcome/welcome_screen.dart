@@ -1,13 +1,11 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 
-import 'package:vixo/components/custom_button.dart';
 import 'package:vixo/components/responsive.dart';
-import 'package:vixo/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:vixo/theme/theme.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +41,10 @@ class WelcomeScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
-                CustomerAppButton(
+                /*CustomerAppButton(
                   title: 'Get Started',
                   url: LoginScreen(),
-                ),
+                ),*/
                 SizedBox(height: 20),
               ],
             ),

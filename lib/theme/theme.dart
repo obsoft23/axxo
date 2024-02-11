@@ -21,8 +21,18 @@ const kAltDarkTextColor = Color(0xFF9D9D9D);
 
 TextStyle titleText =
     TextStyle(color: kPrimaryColor, fontSize: 28, fontWeight: FontWeight.w700);
+
+TextStyle titleText2 = TextStyle(
+    color: kSecondaryColor, fontSize: 22, fontWeight: FontWeight.w700);
 TextStyle subTitle = TextStyle(
     color: kSecondaryColor, fontSize: 16, fontWeight: FontWeight.w500);
+TextStyle subTitle2 =
+    TextStyle(color: Colors.red, fontSize: 18, fontWeight: FontWeight.bold);
+TextStyle subTitle3 = TextStyle(
+    color: kSecondaryColor2, fontSize: 18, fontWeight: FontWeight.bold);
+TextStyle subTitle4 = TextStyle(
+    color: kSecondaryColor, fontSize: 12, fontWeight: FontWeight.w500);
+
 TextStyle textButton = TextStyle(
   color: kPrimaryColor,
   fontSize: 18,

@@ -16,11 +16,12 @@ import 'package:vixo/screens/home.dart';
 import 'package:vixo/theme/theme.dart';
 
 class ConfirmOTPPage extends StatefulWidget {
-  ConfirmOTPPage(
-      {super.key,
-      required this.otpverficationId,
-      required this.smsCode,
-      required this.phoneNo});
+  ConfirmOTPPage({
+    super.key,
+    required this.otpverficationId,
+    required this.smsCode,
+    required this.phoneNo,
+  });
 
   String phoneNo = "";
   String otpverficationId = "";
@@ -37,7 +38,12 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
   bool resendTokenEnabled = false;
   bool showNextButton = false;
 
-  final authController = Get.find<AuthController>();
+  //final authController = Get.find<AuthController>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -116,6 +122,10 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
                           onCompleted: (pin) async {
                             if (pin == widget.smsCode) {
                               nextPage();
+                              /* authController.phoneSignIn(
+                                  widget.otpverficationId,
+                                  widget.smsCode,
+                                  widget.phoneNo);*/
                             } else {
                               bool resendTokenEnabled = true;
                               setState(() {});
@@ -139,6 +149,9 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
                           ? Container()
                           : Column(
                               children: [
+                                SizedBox(
+                                  height: 15,
+                                ),
                                 Text(
                                   "Didn't recieve any code ?",
                                   style: subTitle,
@@ -156,6 +169,7 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
                                           focusNode.unfocus();
                                           if (formKey.currentState!
                                               .validate()) {
+                                            //    authController.phoneVerify(widget.phoneNo);
                                             return;
                                           } else {
                                             resendToken();
@@ -189,19 +203,21 @@ class _ConfirmOTPPageState extends State<ConfirmOTPPage> {
   }
 
   nextPage() async {
-    // Create a PhoneAuthCredential with the code
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: widget.otpverficationId,
-      smsCode: widget.smsCode,
-    );
+    /* Get.to(
+      () => CreateEmailPage(
+        otpverficationId: widget.otpverficationId,
+        smsCode: widget.smsCode,
+        phoneNo: widget.phoneNo,
+      ),
+    );*/
 
-    // Sign the user in (or link) with the credential
-    await FirebaseAuth.instance.signInWithCredential(credential);
-    Get.to(CreateEmailPage());
-    return "";
+    /*authController.createNewUser(
+        widget.otpverficationId, widget.smsCode, widget.phoneNo);*/
+
+    return;
   }
 
-  void resendToken() async {
-    print("to resend Token");
+  resendToken() async {
+    // return authController.phoneVerify(widget.phoneNo);
   }
 }

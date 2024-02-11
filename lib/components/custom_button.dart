@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_import, must_be_immutable
+// ignore_for_file: prefer_const_constructors, unused_import, must_be_immutable, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,12 +8,19 @@ import 'package:vixo/theme/theme.dart';
 import '../constants.dart';
 
 class CustomerAppButton extends StatelessWidget {
-  CustomerAppButton({super.key, required this.title, required this.url});
+  CustomerAppButton({
+    super.key,
+    required this.title,
+    required this.url,
+    required this.color,
+    colorTitle,
+  });
 
   String title = "";
-  // ignore: prefer_typing_uninitialized_variables
-  var url;
 
+  var url;
+  var color;
+  var colorTitle;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -25,51 +32,17 @@ class CustomerAppButton extends StatelessWidget {
         height: 56.0,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.blueGrey),
-          color: Colors.yellow,
+          color: color,
           borderRadius: BorderRadius.circular(12.0),
         ),
         alignment: Alignment.center,
         child: Text(
           title,
           style: TextStyle(
-            color: kDefaultIconDarkColor,
-            fontSize: 20.0,
+            color: colorTitle,
+            fontSize: 17.0,
             fontWeight: FontWeight.w600,
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomerAppButton2 extends StatelessWidget {
-  CustomerAppButton2({super.key, required this.title, required this.url});
-
-  String title = "";
-  // ignore: prefer_typing_uninitialized_variables
-  var url;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Get.to(url);
-      },
-      child: Container(
-        width: double.infinity,
-        height: 56.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.blueAccent),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          title,
-          style: TextStyle(
-              color: kPrimaryColor,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
         ),
       ),
     );

@@ -47,3 +47,80 @@ Future sendOTPRequest(String phoneNo) async {
 //const kGoogleColor = Color(0xFFFF3D00);
 
 //const kDefaultPadding = 28.0;
+
+
+  /*  User user = userCredential.user!;
+      print("user details are$user");
+      print("user details are${user.email}");
+      if (user.email == null) {
+        // Create a document in the 'users' collection with the user's UID
+        await firestore.collection('users').doc(user.uid).set({
+          'phoneNumber': phone,
+          // Add additional user data as needed
+        });
+
+        Get.offAll(() => CreateEmailPage());
+      } else if (user.displayName == null) {
+        print("user has no username");
+        Get.offAll(() => ProvideAccountUsername());
+      } else {
+        print("user has email and username");
+        //Get.to(HomePage());
+      }*/
+
+
+    /* if (user == null) {
+      // if the user is not found then the user is navigated to the Register Screen
+
+      Get.offAll(() => OnBoarding());
+    } else if (user.email == null) {
+      // Create a document in the 'users' collection with the user's UID
+      print("account has no username");
+      //authController.logout();
+      Get.offAll(() => LoginScreen());
+    } else if (user.displayName == null) {
+      print("user has no username");
+      Get.offAll(() => ProvideAccountUsername());
+    } else {
+      print("user has email and username");
+      Get.offAll(() => const LocationPermissionRequestPage());
+    }*/
+
+
+
+
+  _setInitialScreen(User? user) async {
+    print("on this set intial page  $user");
+    if (user == null) {
+      // Obtain shared preferences.
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final bool? first_time = prefs.getBool('first_time');
+      // User is not signed in, redirect to login page
+      if (first_time != null) {
+        Get.offNamed('/login_options');
+        return;
+      } else {
+        Get.offNamed('/onboarding');
+        return;
+      }
+    } else {
+      // User is signed in, check additional user information
+      user = auth.currentUser;
+      //print("user $user");
+      print("auth user ${auth.currentUser}");
+      if (user?.email == null) {
+        print("hello");
+        Get.offNamed('/home');
+        return;
+      } else if (user?.displayName == null) {
+        // User has an email and display name, redirect to home page
+        Get.offAll(() => ProvideAccountUsername());
+        return;
+      } else {
+        // User is signed in but missing email or display name, redirect to profile setup page
+
+        Get.offAll(() => CreateEmailPage());
+        return;
+      }
+    }
+  }

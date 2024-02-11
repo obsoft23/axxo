@@ -1,41 +1,41 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, unused_field
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables, unused_field, unused_element
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:vixo/constants.dart';
-import 'package:vixo/screens/home.dart';
+import 'package:vixo/screens/login/login_screen.dart';
+import 'package:vixo/theme/theme.dart';
 
-import '../../theme/theme.dart';
-
-class AddPartnerPage extends StatefulWidget {
-  const AddPartnerPage({super.key});
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({super.key});
 
   @override
-  State<AddPartnerPage> createState() => _AddPartnerPageState();
+  State<ForgotPassword> createState() => _ForgotPasswordState();
 }
 
-class _AddPartnerPageState extends State<AddPartnerPage> {
+class _ForgotPasswordState extends State<ForgotPassword> {
   bool _isObscured = false;
-
   bool _isTextFieldFilled = false;
-  TextEditingController _addPartnerControllerText = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
+  //AuthController _authController = Get.find();
   final _formkey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    _addPartnerControllerText.addListener(_checkTextField);
+    _usernameController.addListener(_checkTextField);
+    //authController.checkIfHasUsername();
     super.initState();
   }
 
   @override
   void dispose() {
-    _addPartnerControllerText.dispose();
+    _usernameController.dispose();
     super.dispose();
   }
 
   void _checkTextField() {
-    if (_addPartnerControllerText.text.isNotEmpty) {
+    if (_usernameController.text.length > 2) {
       setState(() {
         _isTextFieldFilled = true;
       });
@@ -70,23 +70,9 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
           color: kDefaultIconDarkColor, //change your color here
         ),
         centerTitle: true,
-        title: Column(
-          children: [
-            Text(
-              "Add Partner",
-              style:
-                  TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),
-            ),
-            Text("Step 3/3", style: subTitle4)
-          ],
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_sharp),
-          onPressed: () {
-            // Show alert dialog when back button is pressed
-            String pageInfo = "set up";
-            _showExitConfirmationDialog(context, pageInfo);
-          },
+        title: Text(
+          "Forgot Password",
+          style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w600),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -94,10 +80,8 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
           onTap: () {
-            if (_formkey.currentState!.validate()) {
-              profileController.searchPartner(
-                  _addPartnerControllerText.text, context);
-            }
+            // Get.to(() => AddPartnerPage());
+            //authController.createUserName(context, _usernameController.text);
           },
           child: Ink(
             width: double.infinity,
@@ -111,10 +95,10 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Continue",
+                  "Send Reset Link",
                   style: TextStyle(
                     color: kDefaultIconDarkColor,
-                    fontSize: 18.0,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -123,20 +107,18 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Text(
-                  "Search and add your partner with their custom username",
-                  style: subTitle,
-                ),
-              ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Provide your registered email to reset your password..",
+              style: subTitle,
             ),
-            Form(
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
               key: _formkey,
               child: Center(
                 child: Column(
@@ -150,8 +132,8 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
                         _searchUsername(value);
                       },
                       decoration: InputDecoration(
-                        labelText: 'Searching for parner ...',
-                        hintText: 'Enter your partner username',
+                        labelText: 'Please provide email',
+                        hintText: 'Enter Email ',
                         border: OutlineInputBorder(
                           //border: Border.all(color: Colors.blueGrey),
                           borderRadius: BorderRadius.circular(10.0),
@@ -159,34 +141,19 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    _isUsernameFound
-                        ? Text(
-                            'Username found',
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 14,
-                            ),
-                          )
-                        : Text(
-                            'Username not found',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 14,
-                            ),
-                          ),
                   ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget buildForm(String label, bool pass) {
     return TextFormField(
-      controller: _addPartnerControllerText,
+      controller: _usernameController,
       obscureText: pass ? _isObscured : false,
       decoration: InputDecoration(
         labelText: label,
@@ -214,21 +181,22 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
   }
 }
 
-_showExitConfirmationDialog(BuildContext context, String pageInfo) async {
+Future<void> _showExitConfirmationDialog(
+    BuildContext context, String pageInfo) async {
   return PanaraConfirmDialog.showAnimatedGrow(
     context,
     title: "Are you sure?",
-    message: "You will exit $pageInfo process and your info will be deleted.",
+    message: "Exitiing your account creating process will log you out.",
     confirmButtonText: "Confirm",
     cancelButtonText: "Cancel",
     onTapCancel: () {
       Navigator.pop(context);
     },
     onTapConfirm: () {
-      //Navigator.pop(context);
+      Navigator.pop(context);
       authController.logout();
-      Get.offAll(() => HomePage());
+      Get.offAll(() => LoginScreen());
     },
-    panaraDialogType: PanaraDialogType.error,
+    panaraDialogType: PanaraDialogType.warning,
   );
 }

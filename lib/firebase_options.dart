@@ -67,6 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '466382031798',
     projectId: 'vixo-a91cd',
     storageBucket: 'vixo-a91cd.appspot.com',
+    iosClientId: '466382031798-p0mtrn0s67u23aateek8vql03t1trd7n.apps.googleusercontent.com',
     iosBundleId: 'com.example.vixo',
   );
 
@@ -76,6 +77,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '466382031798',
     projectId: 'vixo-a91cd',
     storageBucket: 'vixo-a91cd.appspot.com',
+    iosClientId: '466382031798-p0mtrn0s67u23aateek8vql03t1trd7n.apps.googleusercontent.com',
     iosBundleId: 'com.example.vixo',
   );
 }
