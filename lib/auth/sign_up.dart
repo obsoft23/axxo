@@ -98,7 +98,10 @@ class _CreateAccountPageState extends State<CreateAccountPage>
           children: [
             Text(
               "Create Account",
-              style: TextStyle(color: kPrimaryColor),
+              style: TextStyle(
+                color: kPrimaryColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Text("Step 1/2", style: subTitle4)
           ],
@@ -252,7 +255,7 @@ class _CreateAccountPageState extends State<CreateAccountPage>
                         text: "Sign up",
                         onTap: () {
                           //
-                          authController.signInWithGoogle();
+                          authController.signInWithGoogle(context);
                         },
                         icon: SvgPicture.asset(
                           "assets/icons/google.svg",

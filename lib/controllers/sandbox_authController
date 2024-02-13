@@ -229,3 +229,88 @@
         }).then((value) {
           Get.offAll(() => PartnerConfirmationPage());
         });*/
+
+
+
+
+  searchPartner(partnerDisplayName) async {
+    try {
+      // Query Firestore to find if displayName already exists
+      QuerySnapshot querySnapshot = await firestore
+          .collection('users')
+          .where('displayName', isEqualTo: partnerDisplayName)
+          .get();
+      // Check if displayName already exists
+      if (querySnapshot.docs.isNotEmpty) {
+        // If displayName exists, check if any user has the same partnerID
+        String userId = querySnapshot.docs.first.id;
+        QuerySnapshot partnerSnapshot = await firestore
+            .collection('users')
+            .where('partnerId', isEqualTo: userId)
+            .get();
+
+        // If no user has the same partnerID, return true
+        if (partnerSnapshot.docs.isEmpty) {
+          return true;
+        } else {
+          // If any user has the same partnerID, return false
+          return false;
+        }
+      } else {
+        // If displayName doesn't exist, return true
+        return false;
+      }
+    } catch (e) {
+      print('Error searching and updating partner: $e');
+    }
+  }
+
+
+
+  // Simulate a delay and then set the confirmation flag to true
+  void _simulateConfirmation() async {
+    await Future.delayed(Duration(seconds: 30));
+    // _isConfirmed.value = false;
+  }
+
+
+
+  fetchPartnerRequest() async {
+    try {
+      String _userId = auth.currentUser!.uid;
+      // Search for the displayName in the database
+      QuerySnapshot querySnapshot = await firestore
+          .collection('users')
+          .where('uid', isEqualTo: _userId)
+          .get();
+      print("checks for user: $querySnapshot");
+      if (querySnapshot.docs.isNotEmpty) {
+        return partnerRequest.value =
+            querySnapshot as DocumentSnapshot<Map<String, dynamic>>?;
+      }
+    } catch (error) {
+      print('Error fetching partner request: $error');
+    }
+  }
+
+
+
+
+
+
+
+ /* if (userData.containsKey('partnerId') && userData['sender'] == true) {
+            Get.offNamed('/awaiting_partner');
+          } else if (userData.containsKey('partnerId') &&
+              userData['sender'] == false) {
+            Get.offNamed('/rejected_page');
+            //  Get.offNamed('/confirm_partner');
+          } else if (userData.containsKey('partnerId') &&
+              userData['rejected'] == true &&
+              userData['sender'] == true) {
+            Get.offNamed('/rejected_page');
+          } else if (userData.containsKey('partnerId') &&
+              userData['rejected'] == true &&
+              userData['sender'] == true) {
+
+              }*/

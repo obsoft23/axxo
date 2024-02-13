@@ -107,8 +107,10 @@ class _ProvideAccountUsernameState extends State<ProvideAccountUsername> {
         child: InkWell(
           onTap: () async {
             // Get.to(() => AddPartnerPage());
-            await profileController.createUserName(
-                context, _usernameController.text);
+            if (_formkey.currentState!.validate()) {
+              await profileController.createUserName(
+                  context, _usernameController.text);
+            }
           },
           child: Ink(
             width: double.infinity,
@@ -151,13 +153,19 @@ class _ProvideAccountUsernameState extends State<ProvideAccountUsername> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    TextField(
+                    TextFormField(
                       controller: _usernameController,
                       onChanged: (value) {
                         setState(() {
                           _searchText = value;
                         });
-                        _searchUsername(value);
+                        _searchUsername(_usernameController.text.trim());
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your username';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Pick your username',

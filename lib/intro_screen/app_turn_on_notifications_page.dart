@@ -59,7 +59,7 @@ class _NotificationRequestPageState extends State<NotificationRequestPage> {
           children: [
             Spacer(),
             Text(
-              "Turn on notifications",
+              "TURN ON NOTIFICATIONS",
               style: titleText,
             ),
             Padding(

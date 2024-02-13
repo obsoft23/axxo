@@ -64,7 +64,10 @@ class _LoginPageState extends State<LoginPage>
         ),
         title: Text(
           "Login",
-          style: TextStyle(color: kPrimaryColor),
+          style: TextStyle(
+            color: kPrimaryColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new_sharp),
@@ -193,7 +196,7 @@ class _LoginPageState extends State<LoginPage>
                         text: "Sign In",
                         onTap: () {
                           //
-                          authController.signInWithGoogle();
+                          authController.signInWithGoogle(context);
                         },
                         icon: SvgPicture.asset(
                           "assets/icons/google.svg",

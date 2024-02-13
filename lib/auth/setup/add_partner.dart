@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, unused_field
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, unused_field, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,16 +48,31 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
 
   String _searchText = '';
   bool _isUsernameFound = false;
+  bool _isLoading = false;
+  String _text = "";
 
-  void _searchUsername(String value) {
+  void _searchUsername(String value) async {
     // Simulate searching username
-    if (value == 'username') {
+    setState(() {
+      _isLoading = true;
+    });
+
+    var status = await profileController
+        .searchPartner(_addPartnerControllerText.text.trim());
+    print("partner seen status is: $status");
+    if (status) {
       setState(() {
         _isUsernameFound = true;
+        _isTextFieldFilled = true;
+        _isLoading = false;
       });
     } else {
+      print("username  not available");
+      _text = "partner not found";
       setState(() {
         _isUsernameFound = false;
+        _isLoading = false;
+        _isTextFieldFilled = false;
       });
     }
   }
@@ -93,9 +108,9 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
-          onTap: () {
+          onTap: () async {
             if (_formkey.currentState!.validate()) {
-              profileController.searchPartner(
+              await profileController.addPartner(
                   _addPartnerControllerText.text, context);
             }
           },
@@ -142,12 +157,22 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    TextField(
+                    TextFormField(
+                      controller: _addPartnerControllerText,
                       onChanged: (value) {
                         setState(() {
                           _searchText = value;
                         });
-                        _searchUsername(value);
+                        if (_addPartnerControllerText.text.length > 1) {
+                          _searchUsername(
+                              _addPartnerControllerText.text.trim());
+                        }
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please provide your partners username';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Searching for parner ...',
@@ -159,21 +184,35 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    _isUsernameFound
-                        ? Text(
-                            'Username found',
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 14,
-                            ),
-                          )
-                        : Text(
-                            'Username not found',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 14,
-                            ),
-                          ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _isUsernameFound
+                            ? Text(
+                                'Partner Found',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            : Text(
+                                _text,
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                ),
+                              ),
+                        SizedBox(width: 10),
+                        _isLoading
+                            ? SizedBox(
+                                width: 22,
+                                height: 22,
+                                child: Image.asset("assets/images/loading.gif"),
+                              )
+                            : Container(),
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -218,7 +257,7 @@ _showExitConfirmationDialog(BuildContext context, String pageInfo) async {
   return PanaraConfirmDialog.showAnimatedGrow(
     context,
     title: "Are you sure?",
-    message: "You will exit $pageInfo process and your info will be deleted.",
+    message: "You will exit $pageInfo process and you will be logged out.",
     confirmButtonText: "Confirm",
     cancelButtonText: "Cancel",
     onTapCancel: () {

@@ -124,3 +124,73 @@ Future sendOTPRequest(String phoneNo) async {
       }
     }
   }
+
+   if (!_isConfirmed.value)
+              Container(
+                color: Colors.black.withOpacity(0.5),
+              ),
+
+
+          
+
+
+          /*Obx(
+      () {
+        return Stack(
+          children: [
+            // Main content
+            Center(
+              child: _isConfirmed.value
+                  ? Text('Partner confirmed the add request.')
+                  : SizedBox(
+                      width: double.infinity,
+                      height: 300,
+                      child: Image.asset("assets/images/please_wait.gif"),
+                    ),
+            ),
+            // Optionally, you can add a transparent overlay to prevent interaction
+          ],
+        );
+      },
+    );
+  }*/
+
+
+
+
+
+  Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blueGrey),
+                        // color: Colors.,
+                        borderRadius: BorderRadius.circular(12.0)),
+                    child: Row(
+                      //  mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Opacity(
+                          opacity: _animation.value,
+                          child: RandomAvatar('saytoonz',
+                              trBackground: true, height: 50, width: 50),
+                        ),
+                        Spacer(),
+                        Text(
+                          '${userData!['displayName']}',
+                        ),
+
+                        ElevatedButton(
+                          onPressed: () {
+                            // Add logic to handle partner confirmation
+                          },
+                          child: Text('Confirm'),
+                        ),
+
+                        // Add more details as needed
+                      ],
+                    ),
+                  ),
+                ),
+              );

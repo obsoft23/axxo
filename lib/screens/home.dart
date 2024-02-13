@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     profileController.checkIfHasPartner();
+    profileController.checkIFPartnerApproved();
   }
 
   @override
@@ -41,8 +42,8 @@ class _HomePageState extends State<HomePage> {
               child: Text("LOGOUT"),
             ),
             SizedBox(
-              width: 30,
-              height: 30,
+              width: 24,
+              height: 23,
               child: Image.asset("assets/images/loading.gif"),
             ),
           ],

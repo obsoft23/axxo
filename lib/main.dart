@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:vixo/auth/setup/confirm_partner.dart';
+import 'package:vixo/auth/setup/rejected_page.dart';
 import 'package:vixo/auth/sign_up.dart';
 import 'package:vixo/auth/sign_in.dart';
 import 'package:vixo/auth/setup/awaiting_partner.dart';
@@ -49,6 +51,13 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/partner', page: () => PartnerConfirmationPage()),
         GetPage(name: '/add_partner', page: () => AddPartnerPage()),
         GetPage(name: '/add_username', page: () => ProvideAccountUsername()),
+        GetPage(
+            name: '/location_permission',
+            page: () => LocationPermissionRequestPage()),
+        GetPage(
+            name: '/awaiting_partner', page: () => PartnerConfirmationPage()),
+        GetPage(name: '/confirm_partner', page: () => ConfirmPartnerPage()),
+        // GetPage(name: '/rejected_page', page: () => RejectPartnerRequestPage()),
       ],
       title: 'Dating',
       debugShowCheckedModeBanner: false,

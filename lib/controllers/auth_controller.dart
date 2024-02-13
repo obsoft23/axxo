@@ -76,7 +76,19 @@ class AuthController extends GetxController {
     print('Email: $email, Password: $password');
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
-    } catch (firebaseAuthException) {}
+    } on FirebaseAuthException catch (error) {
+      print("error login in user : \n $error");
+      return toastification.show(
+        type: ToastificationType.error,
+        style: ToastificationStyle.flat,
+        alignment: Alignment.centerLeft,
+        backgroundColor: Color.fromARGB(255, 225, 115, 107),
+        applyBlurEffect: true,
+        context: context,
+        title: Text('${error.message}'),
+        autoCloseDuration: const Duration(seconds: 3),
+      );
+    }
   }
 
   registerUser(String email, String password, context) async {
@@ -100,8 +112,8 @@ class AuthController extends GetxController {
       });
 
       // Get.offAllNamed("add_username");
-    } catch (firebaseAuthException) {
-      print("error creating new user : \n $firebaseAuthException");
+    } on FirebaseAuthException catch (error) {
+      print("error creating new user : \n $error");
       toastification.show(
         type: ToastificationType.error,
         style: ToastificationStyle.flat,
@@ -109,32 +121,53 @@ class AuthController extends GetxController {
         backgroundColor: Color.fromARGB(255, 225, 115, 107),
         applyBlurEffect: true,
         context: context,
-        title: Text('Error: $firebaseAuthException'),
+        title: Text('${error.message}'),
         autoCloseDuration: const Duration(seconds: 3),
       );
     }
   }
 
-  signInWithFacebook() async {
+  signInWithFacebook(context) async {
     // Implement your sign in with Facebook logic here
     print('Signing in with Facebook...');
     // For demo purpose, setting isLoggedIn true
     isLoggedIn.value = true;
-    try {} catch (firebaseAuthException) {
-      print("error signing in with google : \n $firebaseAuthException");
+    try {} on FirebaseAuthException catch (error) {
+      print("error creating facebook auth user : \n $error");
+      toastification.show(
+        type: ToastificationType.error,
+        style: ToastificationStyle.flat,
+        alignment: Alignment.centerLeft,
+        backgroundColor: Color.fromARGB(255, 225, 115, 107),
+        applyBlurEffect: true,
+        context: context,
+        title: Text('${error.message}'),
+        autoCloseDuration: const Duration(seconds: 3),
+      );
     }
   }
 
-  signInWithGoogle() async {
+  signInWithGoogle(context) async {
     // Implement your sign in with Google logic here
     print('Signing in with Google...');
     // For demo purpose, setting isLoggedIn true
     isLoggedIn.value = true;
     try {
       GoogleAuthProvider _googleAuthProvider = GoogleAuthProvider();
+      print(_googleAuthProvider);
       auth.signInWithProvider(_googleAuthProvider);
-    } catch (firebaseAuthException) {
-      print("error signing in with google : \n $firebaseAuthException");
+    } on FirebaseAuthException catch (error) {
+      print("error creating google user : \n $error");
+      toastification.show(
+        type: ToastificationType.error,
+        style: ToastificationStyle.flat,
+        alignment: Alignment.centerLeft,
+        backgroundColor: Color.fromARGB(255, 225, 115, 107),
+        applyBlurEffect: true,
+        context: context,
+        title: Text('${error.message}'),
+        autoCloseDuration: const Duration(seconds: 3),
+      );
     }
   }
 

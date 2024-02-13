@@ -58,6 +58,9 @@ dependencies:
   awesome_dialog: ^3.2.0
   panara_dialogs: ^0.1.4
   facebook_auth: ^0.0.3
+  random_avatar: ^0.0.8
+  avatar_glow: ^3.0.1
+  fluttermoji: ^1.0.2
 
 dev_dependencies:
   flutter_test:

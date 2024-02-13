@@ -8,11 +8,15 @@ class SocialButton extends StatelessWidget {
     required this.onTap,
     required this.icon,
     required this.text,
+    this.color,
+    this.textColor,
   });
 
   var onTap;
   var icon;
   var text;
+  var color;
+  var textColor;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -23,6 +27,7 @@ class SocialButton extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.blueGrey),
           borderRadius: BorderRadius.circular(12),
+          color: color,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -34,7 +39,7 @@ class SocialButton extends StatelessWidget {
             SizedBox(width: 10),
             Text(
               text,
-              //style: TextStyle(color: Colors.white, fontSize: 16),
+              style: TextStyle(color: textColor),
             ),
           ],
         ),

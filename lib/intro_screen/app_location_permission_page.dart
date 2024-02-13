@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:vixo/components/responsive.dart';
+import 'package:vixo/constants.dart';
 import 'package:vixo/intro_screen/app_turn_on_notifications_page.dart';
 import 'package:vixo/screens/home.dart';
 import 'package:vixo/theme/theme.dart';
@@ -29,7 +30,8 @@ class _LocationPermissionRequestPageState
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
           onTap: () {
-            Get.to(() => NotificationRequestPage());
+            authController.logout();
+            // Get.to(() => NotificationRequestPage());
           },
           child: Ink(
             width: double.infinity,
@@ -61,7 +63,7 @@ class _LocationPermissionRequestPageState
           children: [
             Spacer(),
             Text(
-              "Turn on Location",
+              "TURN ON LOCATION",
               style: titleText,
             ),
             Padding(
@@ -79,9 +81,9 @@ class _LocationPermissionRequestPageState
                 height: getScreenPropotionHeight(
                     orientation == Orientation.portrait ? 250 : 450, size),
                 child: Center(
-                  child: SvgPicture.asset(
-                    'assets/icons/location.svg',
-                    height: getScreenPropotionHeight(350, size),
+                  child: Image.asset(
+                    'assets/images/location1.gif',
+                    // height: getScreenPropotionHeight(350, size),
                   ),
                 ),
               ),

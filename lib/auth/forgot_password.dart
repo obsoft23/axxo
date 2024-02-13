@@ -72,7 +72,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         centerTitle: true,
         title: Text(
           "Forgot Password",
-          style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w600),
+          style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
