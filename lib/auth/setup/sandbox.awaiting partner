@@ -132,3 +132,75 @@ class _PartnerConfirmationContentState
     );
   }
 }
+
+
+
+
+
+
+  /* ElevatedButton(
+                        onPressed: () async {
+                          // ignore: unused_local_variable
+                          var status = await profileController
+                              .acceptPartner(userData['uid']);
+                          setState(() {
+                            _isLoading = true;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            /* padding: EdgeInsets.symmetric(
+                              horizontal: 100, vertical: 14),*/
+                            ),
+                        child: _isLoading
+                            ? SizedBox(
+                                width: 12,
+                                height: 12,
+                                child: Image.asset("assets/images/loading.gif"))
+                            : Text('CONFIRM'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Add logic to handle rejection
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red, // Background color
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // Rounded corners
+                          ),
+                        ),
+                        child: Text(
+                          'Reject',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      )*/
+
+
+                        /*Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Placeholder image with animated opacity
+            Opacity(
+                opacity: _animation.value,
+                child: RandomAvatar('saytoonz',
+                    trBackground: true, height: 150, width: 150)),
+            SizedBox(height: 20),
+            // Button to confirm partner
+            ElevatedButton(
+              onPressed: () {
+                // Add logic to handle partner confirmation
+                Text(
+                          '${userData!['displayName']}',
+                        ),
+              },
+              child: Text('Accept Partner'),
+            ),
+          ],
+        ),
+      ),*/

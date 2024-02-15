@@ -247,9 +247,9 @@ class _ProvideAccountUsernameState extends State<ProvideAccountUsername> {
 
 Future<void> _showExitConfirmationDialog(
     BuildContext context, String pageInfo) async {
-  return PanaraConfirmDialog.showAnimatedGrow(
+  return PanaraConfirmDialog.showAnimatedFromTop(
     context,
-    title: "Are you sure?",
+    noImage: true,
     message: "Exitiing your account creating process will log you out.",
     confirmButtonText: "Confirm",
     cancelButtonText: "Cancel",

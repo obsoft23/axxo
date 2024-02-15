@@ -25,19 +25,17 @@ class ProfileController extends GetxController {
   final RxBool _isRejected = false.obs;
   Rx<DocumentSnapshot<Map<String, dynamic>>?> partnerRequest =
       Rxn<DocumentSnapshot<Map<String, dynamic>>>();
-  Rx<DocumentSnapshot<Map<String, dynamic>>?> addPartnerPageDocuement =
+  Rx<DocumentSnapshot<Map<String, dynamic>>?> addPartnerPageSnapshot =
+      Rxn<DocumentSnapshot<Map<String, dynamic>>>();
+  Rx<DocumentSnapshot<Map<String, dynamic>>?> awaitingPartnerPageSnapshot =
+      Rxn<DocumentSnapshot<Map<String, dynamic>>>();
+  Rx<DocumentSnapshot<Map<String, dynamic>>?> rejectedPartnerPageSnapshot =
       Rxn<DocumentSnapshot<Map<String, dynamic>>>();
 
   @override
   void onInit() {
     // Get called when controller is created
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    checkIfHasPartner();
-    super.onReady();
   }
 
   @override
@@ -62,115 +60,50 @@ class ProfileController extends GetxController {
     }
   }
 
-  checkIfHasPartner() async {
-    try {
-      if (auth.currentUser == null) {
-        print("is auth null");
-        return;
-      }
-
-      firestore
-          .collection('users')
-          .doc(auth.currentUser!.uid)
-          .snapshots()
-          .listen((userSnapshot) {
-        Map<String, dynamic>? userData = userSnapshot.data();
-        bool hasPartnerId =
-            userData != null && userData.containsKey('partnerId');
-
-        bool hasDisplayName =
-            userData != null && userData.containsKey('displayName');
-        if (!hasDisplayName) {
-          print("status of $hasDisplayName");
-          Get.offNamed('/add_username'); // Redirect to create username page
-          return;
-        }
-
-        if (!hasPartnerId) {
-          print("no partner found");
-          Get.offNamed('/add_partner');
-          return;
-        } else {
-          checkIFPartnerApproved(userSnapshot);
-          return;
-        }
-        //  addPartnerPageDocuement.value =
-        //    userSnapshot; // Update userDocument with the latest snapshot
+  updateUserEmail(email, context) async {
+    QuerySnapshot displayNameSnapshot = await firestore
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+    if (displayNameSnapshot.docs.isEmpty) {
+      User? user = auth.currentUser;
+      await firestore.collection('users').doc(user!.uid).update({
+        'email': email,
+      }).then((value) {
+        Get.offAll(() => ProvideAccountUsername());
       });
-      return;
-    } on FirebaseAuthException catch (e) {
-      print('Error searching and updating partner: $e');
+    } else {
+      print('Email already exists. Please choose a different one.');
+      toastification.show(
+        type: ToastificationType.warning,
+        style: ToastificationStyle.flat,
+        alignment: Alignment.centerLeft,
+        backgroundColor: Colors.white,
+        applyBlurEffect: true,
+        context: context,
+        title:
+            Text('Sorry, Email already exists. Please choose a different one.'),
+        autoCloseDuration: const Duration(seconds: 3),
+      );
     }
   }
 
-  checkIFPartnerApproved(userSnapshot) async {
+  checkIfHasPartner() async {
     try {
-// Get the user document from Firestore
-      if (auth.currentUser == null) {
-        return;
-      }
-      /*  String userId = auth.currentUser!.uid;
-
+      // Get the user document from Firestore
       DocumentSnapshot userSnapshot =
-          await firestore.collection('users').doc(userId).get();*/
+          await firestore.collection('users').doc(auth.currentUser!.uid).get();
 
-      // Check if the user document has a partnerId and if it's approved
-      if (userSnapshot.exists) {
-        Map<String, dynamic> userData =
-            userSnapshot.data() as Map<String, dynamic>;
-        if (userData["approved"] == false) {
-          //
-          /**** if user request has been rejected */
-          if (userData.containsKey('rejected')) {
-            //
-            if (userData.containsKey('partnerId') &&
-                userData['rejected'] == true &&
-                userData['sender'] == true) {
-              Get.offAll(
-                RejectPartnerRequestPage(
-                  rejector: true,
-                ),
-              );
-
-              //
-            } else if (userData.containsKey('partnerId') &&
-                userData['rejected'] == true &&
-                userData['sender'] == false) {
-              Get.offAll(
-                RejectPartnerRequestPage(
-                  rejector: false,
-                ),
-              );
-            }
-          } else {
-            if (userData.containsKey('partnerId') &&
-                userData['sender'] == true) {
-              Get.offNamed('/awaiting_partner');
-
-              //
-            } else if (userData.containsKey('partnerId') &&
-                userData['sender'] == false) {
-              Get.offNamed('/confirm_partner');
-
-              //
-            }
-          }
-          //..      /
-
-          //
-        } else if (!userData.containsKey('partnerId')) {
-          Get.offNamed('/add_partner');
-        } else {
-          Get.offNamed('/location_permission');
-        }
-      } else {
-        print('User document not found');
-        authController.logout();
-
-        return false;
+      // Check if the user document contains the 'partnerId' field
+      Map<String, dynamic>? userData =
+          userSnapshot.data() as Map<String, dynamic>?;
+      bool hasPartnerId = userData != null && userData.containsKey('partnerId');
+      if (!hasPartnerId) {
+        Get.offNamed('/add_partner');
       }
+      return;
     } on FirebaseAuthException catch (e) {
-      print('Error searching and  partner status: $e');
+      print('Error searching and updating partner: $e');
     }
   }
 
@@ -253,18 +186,6 @@ class ProfileController extends GetxController {
             Get.offNamed('/awaiting_partner');
           } else {
             print('Another user already has the same partnerID');
-
-            // ignore: use_build_context_synchronously
-            return toastification.show(
-              type: ToastificationType.error,
-              style: ToastificationStyle.flat,
-              alignment: Alignment.centerLeft,
-              backgroundColor: Color.fromARGB(255, 225, 115, 107),
-              applyBlurEffect: true,
-              context: context,
-              title: Text('Sorry, user already has a partner'),
-              autoCloseDuration: const Duration(seconds: 3),
-            );
           }
         }
       } else {
@@ -284,6 +205,74 @@ class ProfileController extends GetxController {
         autoCloseDuration: const Duration(seconds: 3),
       );
       return false;
+    }
+  }
+
+  checkIFPartnerApproved() async {
+    try {
+// Get the user document from Firestore
+      String userId = auth.currentUser!.uid;
+
+      DocumentSnapshot userSnapshot =
+          await firestore.collection('users').doc(userId).get();
+
+      // Check if the user document has a partnerId and if it's approved
+      if (userSnapshot.exists) {
+        Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
+        if (userData["approved"] == false) {
+          //
+          /**** if user request has been rejected */
+          if (userData.containsKey('rejected')) {
+            //
+            if (userData.containsKey('partnerId') &&
+                userData['rejected'] == true &&
+                userData['sender'] == true) {
+              Get.offAll(
+                RejectPartnerRequestPage(
+                  rejector: true,
+                ),
+              );
+
+              //
+            } else if (userData.containsKey('partnerId') &&
+                userData['rejected'] == true &&
+                userData['sender'] == false) {
+              Get.offAll(
+                RejectPartnerRequestPage(
+                  rejector: false,
+                ),
+              );
+            }
+          } else {
+            if (userData.containsKey('partnerId') &&
+                userData['sender'] == true) {
+              Get.offNamed('/awaiting_partner');
+
+              //
+            } else if (userData.containsKey('partnerId') &&
+                userData['sender'] == false) {
+              Get.offNamed('/confirm_partner');
+
+              //
+            }
+          }
+          //..      /
+
+          //
+        } else if (!userData.containsKey('partnerId')) {
+          Get.offNamed('/add_partner');
+        } else {
+          Get.offNamed('/location_permission');
+        }
+      } else {
+        print('User document not found');
+        authController.logout();
+
+        return false;
+      }
+    } on FirebaseAuthException catch (e) {
+      print('Error searching and  partner status: $e');
     }
   }
 
@@ -353,6 +342,8 @@ class ProfileController extends GetxController {
         'approved': false,
         'rejected': true,
       });
+
+      Get.offNamed('/home');
     } on FirebaseAuthException catch (error) {
       print("error rejecting partner user : \n $error");
       toastification.show(
@@ -387,6 +378,8 @@ class ProfileController extends GetxController {
         'sender': FieldValue.delete(),
         'approved': FieldValue.delete(),
       });*/
+
+      Get.offNamed('/home');
     } catch (error) {
       print('Error fetching partner request: $error');
       rethrow;
@@ -428,34 +421,6 @@ class ProfileController extends GetxController {
         applyBlurEffect: true,
         context: context,
         title: Text('Display name not available.'),
-        autoCloseDuration: const Duration(seconds: 3),
-      );
-    }
-  }
-
-  updateUserEmail(email, context) async {
-    QuerySnapshot displayNameSnapshot = await firestore
-        .collection('users')
-        .where('email', isEqualTo: email)
-        .get();
-    if (displayNameSnapshot.docs.isEmpty) {
-      User? user = auth.currentUser;
-      await firestore.collection('users').doc(user!.uid).update({
-        'email': email,
-      }).then((value) {
-        Get.offAll(() => ProvideAccountUsername());
-      });
-    } else {
-      print('Email already exists. Please choose a different one.');
-      toastification.show(
-        type: ToastificationType.warning,
-        style: ToastificationStyle.flat,
-        alignment: Alignment.centerLeft,
-        backgroundColor: Colors.white,
-        applyBlurEffect: true,
-        context: context,
-        title:
-            Text('Sorry, Email already exists. Please choose a different one.'),
         autoCloseDuration: const Duration(seconds: 3),
       );
     }

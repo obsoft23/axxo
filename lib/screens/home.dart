@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:vixo/constants.dart';
-import 'package:vixo/controllers/auth_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,13 +11,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final AuthController authController = Get.find<AuthController>();
-
   @override
   void initState() {
     super.initState();
     profileController.checkIfHasPartner();
-    profileController.checkIFPartnerApproved();
+    // profileController.checkIFPartnerApproved();
   }
 
   @override

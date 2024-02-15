@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:random_avatar/random_avatar.dart';
+import 'package:vixo/components/loading_gif.dart';
 import 'package:vixo/components/socials_button.dart';
 import 'package:vixo/constants.dart';
 import 'package:vixo/screens/home.dart';
@@ -22,32 +23,13 @@ class ConfirmPartnerPage extends StatefulWidget {
   State<ConfirmPartnerPage> createState() => _ConfirmPartnerPageState();
 }
 
-class _ConfirmPartnerPageState extends State<ConfirmPartnerPage>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
+class _ConfirmPartnerPageState extends State<ConfirmPartnerPage> {
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     profileController.fetchPartnerRequest();
-    _controller =
-        AnimationController(duration: Duration(seconds: 1), vsync: this);
-
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller)
-      ..addListener(() {
-        setState(() {});
-      });
-
-    _controller.repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -68,19 +50,16 @@ class _ConfirmPartnerPageState extends State<ConfirmPartnerPage>
                   fontSize: 20,
                 ),
               ),
-              Opacity(
-                opacity: _animation.value,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Approve partner request  ", style: subTitle4),
-                    SizedBox(
-                      width: 12,
-                      height: 12,
-                      child: Image.asset("assets/images/loading.gif"),
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Approve partner request  ", style: subTitle4),
+                  SizedBox(
+                    width: 12,
+                    height: 12,
+                    child: Image.asset("assets/images/loading.gif"),
+                  ),
+                ],
               )
             ],
           ),
@@ -97,7 +76,7 @@ class _ConfirmPartnerPageState extends State<ConfirmPartnerPage>
           () {
             var snapshot = profileController.partnerRequest.value;
             if (snapshot == null) {
-              return Center(child: CircularProgressIndicator());
+              return CenterLoadingIndicator();
             } else if (!snapshot.exists) {
               return Center(child: Text('No data found'));
             } else {
@@ -117,11 +96,11 @@ class _ConfirmPartnerPageState extends State<ConfirmPartnerPage>
                       ),
                       SizedBox(height: 20),
                       Text(
-                        'username: ${userData!['displayName']}',
+                        '${userData!['displayName']}',
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'walto'),
                       ),
                       SizedBox(height: 10),
                       Center(
@@ -164,9 +143,6 @@ class _ConfirmPartnerPageState extends State<ConfirmPartnerPage>
                               //
                               var status = await profileController
                                   .rejectPartner(userData['uid'], context);
-                              setState(() {
-                                _isLoading = true;
-                              });
                             },
                             icon: Icon(Icons.cancel_outlined,
                                 color: Colors.white),
@@ -179,94 +155,25 @@ class _ConfirmPartnerPageState extends State<ConfirmPartnerPage>
                               //// ignore: unused_local_variable
                               var status = await profileController
                                   .acceptPartner(userData['uid'], context);
-                              setState(() {
-                                _isLoading = true;
-                              });
                             },
                             icon: Icon(Icons.check_circle, color: Colors.white),
                           ),
                         ],
                       ),
-                      /* ElevatedButton(
-                        onPressed: () async {
-                          // ignore: unused_local_variable
-                          var status = await profileController
-                              .acceptPartner(userData['uid']);
-                          setState(() {
-                            _isLoading = true;
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                            /* padding: EdgeInsets.symmetric(
-                              horizontal: 100, vertical: 14),*/
-                            ),
-                        child: _isLoading
-                            ? SizedBox(
-                                width: 12,
-                                height: 12,
-                                child: Image.asset("assets/images/loading.gif"))
-                            : Text('CONFIRM'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Add logic to handle rejection
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red, // Background color
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(8), // Rounded corners
-                          ),
-                        ),
-                        child: Text(
-                          'Reject',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      )*/
                     ],
                   ),
                 ),
               );
             }
           },
-        )
-
-        /*Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Placeholder image with animated opacity
-            Opacity(
-                opacity: _animation.value,
-                child: RandomAvatar('saytoonz',
-                    trBackground: true, height: 150, width: 150)),
-            SizedBox(height: 20),
-            // Button to confirm partner
-            ElevatedButton(
-              onPressed: () {
-                // Add logic to handle partner confirmation
-                Text(
-                          '${userData!['displayName']}',
-                        ),
-              },
-              child: Text('Accept Partner'),
-            ),
-          ],
-        ),
-      ),*/
-        );
+        ));
   }
 }
 
 _showExitConfirmationDialog(BuildContext context, String pageInfo) async {
   return PanaraConfirmDialog.showAnimatedGrow(
     context,
-    title: "Are you sure?",
+    noImage: true,
     message: "You will exit $pageInfo process and you will be logged out.",
     confirmButtonText: "Confirm",
     cancelButtonText: "Cancel",
@@ -277,6 +184,6 @@ _showExitConfirmationDialog(BuildContext context, String pageInfo) async {
       //Navigator.pop(context);
       authController.logout();
     },
-    panaraDialogType: PanaraDialogType.error,
+    panaraDialogType: PanaraDialogType.warning,
   );
 }

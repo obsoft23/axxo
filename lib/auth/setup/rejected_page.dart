@@ -97,15 +97,12 @@ class _RejectPartnerRequestPageState extends State<RejectPartnerRequestPage>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 35,
+                      height: 45,
                     ),
                     ScaleTransition(
                       scale: _animation,
-                      child: Icon(
-                        Icons.cancel,
-                        size: 100.0,
-                        color: Colors.red,
-                      ),
+                      child: SizedBox(
+                          child: Image.asset("assets/images/broken_heart.gif")),
                     ),
                     SizedBox(height: 20),
                     Text(
@@ -125,15 +122,16 @@ class _RejectPartnerRequestPageState extends State<RejectPartnerRequestPage>
                             ),
                           )
                         : Text(
-                            'Your partner request has been rejected by them.',
+                            'Your partner request has been rejected by ${userData!['displayName']}.',
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                     SizedBox(height: 25),
                     SocialButton(
-                      text: "Reset ",
+                      text: "Reset Status",
                       textColor: kDefaultIconDarkColor,
                       color: Colors.yellow,
                       onTap: () async {
@@ -155,7 +153,7 @@ class _RejectPartnerRequestPageState extends State<RejectPartnerRequestPage>
 _showExitConfirmationDialog(BuildContext context, String pageInfo) {
   return PanaraConfirmDialog.showAnimatedGrow(
     context,
-    title: "Are you sure?",
+    noImage: true,
     message: "You will exit $pageInfo process and you will be logged out.",
     confirmButtonText: "Confirm",
     cancelButtonText: "Cancel",
@@ -166,6 +164,6 @@ _showExitConfirmationDialog(BuildContext context, String pageInfo) {
       //Navigator.pop(context);
       authController.logout();
     },
-    panaraDialogType: PanaraDialogType.error,
+    panaraDialogType: PanaraDialogType.warning,
   );
 }

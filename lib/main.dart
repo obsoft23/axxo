@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: '/awaiting_partner', page: () => PartnerConfirmationPage()),
         GetPage(name: '/confirm_partner', page: () => ConfirmPartnerPage()),
-        // GetPage(name: '/rejected_page', page: () => RejectPartnerRequestPage()),
+       
       ],
       title: 'Dating',
       debugShowCheckedModeBanner: false,

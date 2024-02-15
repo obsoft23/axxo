@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage>
         child: FadeTransition(
           opacity: _animation,
           child: Container(
-            padding: EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(10.0),
             child: Form(
               key: _formKey,
               child: Column(

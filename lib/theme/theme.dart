@@ -27,11 +27,13 @@ TextStyle titleText2 = TextStyle(
 TextStyle subTitle = TextStyle(
     color: kSecondaryColor, fontSize: 16, fontWeight: FontWeight.w500);
 TextStyle subTitle2 =
-    TextStyle(color: Colors.red, fontSize: 18, fontWeight: FontWeight.bold);
+    TextStyle(color: Color.fromARGB(255, 157, 74, 68), fontSize: 21, fontWeight: FontWeight.bold);
 TextStyle subTitle3 = TextStyle(
     color: kSecondaryColor2, fontSize: 18, fontWeight: FontWeight.bold);
 TextStyle subTitle4 = TextStyle(
     color: kSecondaryColor, fontSize: 12, fontWeight: FontWeight.w500);
+    TextStyle subTitle5 =
+    TextStyle(color: Color.fromARGB(255, 240, 51, 38), fontSize: 21, fontWeight: FontWeight.bold);
 
 TextStyle textButton = TextStyle(
   color: kPrimaryColor,

@@ -79,11 +79,11 @@ class _LocationPermissionRequestPageState
               child: SizedBox(
                 width: double.infinity,
                 height: getScreenPropotionHeight(
-                    orientation == Orientation.portrait ? 250 : 450, size),
+                    orientation == Orientation.portrait ? 290 : 450, size),
                 child: Center(
                   child: Image.asset(
-                    'assets/images/location1.gif',
-                    // height: getScreenPropotionHeight(350, size),
+                    'assets/images/location2.gif',
+                    //height: getScreenPropotionHeight(350, size),
                   ),
                 ),
               ),

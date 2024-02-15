@@ -33,6 +33,12 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
       });
 
     _controller.repeat(reverse: true);
+
+    Future.delayed(Duration(seconds: 18), () {
+      setState(() {
+        _isLoading = true;
+      });
+    });
   }
 
   @override
@@ -93,19 +99,27 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Waiting for partners approval", style: subTitle2),
+                  _isLoading
+                      ? Text("Waiting for partners approval 😮‍💨 ",
+                          style: subTitle5)
+                      : Text("Waiting for partners approval 🥹",
+                          style: subTitle2),
                   SizedBox(width: 8),
-                  SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: Image.asset("assets/images/loading_dots.gif"),
-                  ),
                 ],
               ),
               SizedBox(height: 20),
               SizedBox(
-                child: CircularProgressIndicator(),
+                width: 20,
+                height: 20,
+                child: Image.asset("assets/images/loading_dots.gif"),
               ),
+              SizedBox(height: 8),
+              !_isLoading
+                  ? Container()
+                  : Text(
+                      'Taking so long ?', // Show the text after loading
+                      style: TextStyle(fontSize: 14),
+                    ),
             ],
           ),
         ));
@@ -114,11 +128,12 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
 
 _showExitConfirmationDialog(BuildContext context, String pageInfo) async {
   return PanaraConfirmDialog.showAnimatedGrow(
+    noImage: true,
     context,
-    title: "Are you sure?",
     message: "You will exit $pageInfo process and you will be logged out.",
     confirmButtonText: "Confirm",
     cancelButtonText: "Cancel",
+    textColor: kDefaultIconDarkColor,
     onTapCancel: () {
       Navigator.pop(context);
     },
@@ -126,7 +141,7 @@ _showExitConfirmationDialog(BuildContext context, String pageInfo) async {
       //Navigator.pop(context);
       authController.logout();
     },
-    panaraDialogType: PanaraDialogType.error,
+    panaraDialogType: PanaraDialogType.warning,
   );
 }
 

@@ -62,11 +62,7 @@ class AuthController extends GetxController {
         return;
       }
     } else {
-      if (user.displayName == null) {
-        Get.offNamed('/add_username');
-      } else {
-        Get.offAllNamed("/home");
-      }
+      Get.offAllNamed("/home");
     }
   }
 

@@ -121,7 +121,7 @@ class _CreateAccountPageState extends State<CreateAccountPage>
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(11.0),
                     child: Form(
                       key: _formKey,
                       child: Column(

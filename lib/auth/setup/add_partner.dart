@@ -254,20 +254,14 @@ class _AddPartnerPageState extends State<AddPartnerPage> {
 }
 
 _showExitConfirmationDialog(BuildContext context, String pageInfo) async {
-  return PanaraConfirmDialog.showAnimatedGrow(
-    context,
-    title: "Are you sure?",
-    message: "You will exit $pageInfo process and you will be logged out.",
-    confirmButtonText: "Confirm",
-    cancelButtonText: "Cancel",
-    onTapCancel: () {
-      Navigator.pop(context);
-    },
-    onTapConfirm: () {
-      //Navigator.pop(context);
-      authController.logout();
-      Get.offAll(() => HomePage());
-    },
-    panaraDialogType: PanaraDialogType.error,
-  );
+  return PanaraConfirmDialog.showAnimatedShrink(context,
+      noImage: true,
+      message: "You will exit $pageInfo process and you will be logged out.",
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel", onTapCancel: () {
+    Navigator.pop(context);
+  }, onTapConfirm: () {
+    //Navigator.pop(context);
+    authController.logout();
+  }, panaraDialogType: PanaraDialogType.error);
 }
