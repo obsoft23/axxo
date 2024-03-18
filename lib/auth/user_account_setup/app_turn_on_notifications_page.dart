@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:vixo/components/responsive.dart';
-import 'package:vixo/screens/home.dart';
+import 'package:vixo/constants.dart';
 import 'package:vixo/theme/theme.dart';
 
 class NotificationRequestPage extends StatefulWidget {
@@ -26,8 +27,15 @@ class _NotificationRequestPageState extends State<NotificationRequestPage> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
-          onTap: () {
-            Get.to(() => HomePage());
+          onTap: () async {
+            // Get.to(() => HomePage());
+            try {
+              await firebaseMessaging.requestPermission();
+            } catch (e) {
+              if (kDebugMode) {
+                print(e);
+              }
+            }
           },
           child: Ink(
             width: double.infinity,
@@ -57,19 +65,33 @@ class _NotificationRequestPageState extends State<NotificationRequestPage> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Spacer(),
+            SizedBox(
+              height: 60,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.to(() => NotificationRequestPage());
+                  },
+                  child: Text(
+                    "Skip",
+                    style: subTitle,
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               "TURN ON NOTIFICATIONS",
               style: titleText,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Never miss a message, never miss how your partner is feeling. ",
-                style: subTitle,
-              ),
-            ),
-            Spacer(),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: SizedBox(
@@ -84,7 +106,25 @@ class _NotificationRequestPageState extends State<NotificationRequestPage> {
                 ),
               ),
             ),
-            SizedBox(height: 250)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Never miss a message, never miss how your partner is feeling. Be up to date with tasks, notes and plans.",
+                style: titleText2,
+              ),
+            ),
+            SizedBox(
+              height: 60,
+            ),
+            SizedBox(
+              width: 50,
+              height: 50,
+              child: Image.asset(
+                'assets/images/heart.png',
+                //height: getScreenPropotionHeight(350, size),
+              ),
+            ),
+            Spacer(),
           ],
         ),
       ),

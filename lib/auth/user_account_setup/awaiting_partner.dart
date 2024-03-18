@@ -51,6 +51,7 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+           
           iconTheme: IconThemeData(
             color: kDefaultIconDarkColor, //change your color here
           ),

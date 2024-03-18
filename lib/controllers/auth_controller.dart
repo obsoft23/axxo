@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:toastification/toastification.dart';
 import 'package:vixo/auth/sign_up.dart';
-import 'package:vixo/auth/setup/add_partner.dart';
-import 'package:vixo/auth/setup/awaiting_partner.dart';
-import 'package:vixo/auth/setup/create_email.dart';
-import 'package:vixo/auth/setup/create_username.dart';
+import 'package:vixo/auth/user_account_setup/add_partner.dart';
+import 'package:vixo/auth/user_account_setup/awaiting_partner.dart';
+import 'package:vixo/auth/user_account_setup/create_email.dart';
+import 'package:vixo/auth/user_account_setup/create_username.dart';
 import 'package:vixo/auth/phone_auth_old/sign_up/confirm_otp.dart';
 import 'package:vixo/constants.dart';
-import 'package:vixo/intro_screen/app_location_permission_page.dart';
+import 'package:vixo/auth/user_account_setup/app_location_permission_page.dart';
 import 'package:vixo/intro_screen/on_boarding.dart';
 import 'package:vixo/screens/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,20 +49,24 @@ class AuthController extends GetxController {
 
   checkLogin(user) async {
     print("on this set intial page  $user");
-
-    if (user == null) {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final bool? first_time = prefs.getBool('first_time');
-      // User is not signed in, redirect to login page
-      if (first_time != null) {
-        Get.offNamed('/login_options');
-        return;
+    try {
+      if (user == null) {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final bool? first_time = prefs.getBool('first_time');
+        // User is not signed in, redirect to login page
+        if (first_time != null) {
+          Get.offNamed('/login_options');
+          return;
+        } else {
+          Get.offNamed('/onboarding');
+          return;
+        }
       } else {
-        Get.offNamed('/onboarding');
+        Get.offAllNamed("/home");
         return;
       }
-    } else {
-      Get.offAllNamed("/home");
+    } catch (error) {
+      print("Error with fidingin user account: $error");
     }
   }
 

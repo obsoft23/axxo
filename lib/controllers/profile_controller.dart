@@ -3,16 +3,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:toastification/toastification.dart';
-import 'package:vixo/auth/setup/add_partner.dart';
-import 'package:vixo/auth/setup/awaiting_partner.dart';
-import 'package:vixo/auth/setup/create_email.dart';
-import 'package:vixo/auth/setup/create_username.dart';
+import 'package:vixo/auth/user_account_setup/add_partner.dart';
+import 'package:vixo/auth/user_account_setup/awaiting_partner.dart';
+import 'package:vixo/auth/user_account_setup/create_email.dart';
+import 'package:vixo/auth/user_account_setup/create_username.dart';
 import 'package:vixo/auth/phone_auth_old/sign_up/confirm_otp.dart';
-import 'package:vixo/auth/setup/rejected_page.dart';
+import 'package:vixo/auth/user_account_setup/rejected_page.dart';
 import 'package:vixo/constants.dart';
-import 'package:vixo/intro_screen/app_location_permission_page.dart';
+import 'package:vixo/auth/user_account_setup/app_location_permission_page.dart';
 import 'package:vixo/intro_screen/on_boarding.dart';
 import 'package:vixo/screens/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -109,10 +111,6 @@ class ProfileController extends GetxController {
       if (auth.currentUser == null) {
         return;
       }
-      /*  String userId = auth.currentUser!.uid;
-
-      DocumentSnapshot userSnapshot =
-          await firestore.collection('users').doc(userId).get();*/
 
       // Check if the user document has a partnerId and if it's approved
       if (userSnapshot.exists) {
@@ -161,7 +159,29 @@ class ProfileController extends GetxController {
         } else if (!userData.containsKey('partnerId')) {
           Get.offNamed('/add_partner');
         } else {
-          Get.offNamed('/location_permission');
+          //Code Block for when user as completed basic sign in
+          bool locationPermission = await _checkLocationPermission();
+          bool notificationPermission = await _checkNotificationPermission();
+          if (locationPermission && notificationPermission) {
+            // Both permissions granted, navigate to the home page
+            Get.offNamed('/home');
+            return;
+          } else if (locationPermission) {
+            Get.offNamed('/location_permission');
+            return;
+          } else if (notificationPermission) {
+            Get.offNamed('/notification_intro');
+            return;
+          } else {
+            if (!locationPermission) {
+              print("am here checking now$locationPermission");
+              Get.offNamed('/location_permission');
+              return;
+            } else if (!notificationPermission) {
+              Get.offNamed('/notification_intro');
+              return;
+            }
+          }
         }
       } else {
         print('User document not found');
@@ -310,8 +330,8 @@ class ProfileController extends GetxController {
   acceptPartner(partnerId, context) async {
     try {
       String _userId = auth.currentUser!.uid;
-      print("user id is $_userId");
-      print("partner id is $partnerId");
+      // print("user id is $_userId");
+      // print("partner id is $partnerId");
 
       // Update display name in Firestore as well
       await firestore.collection('users').doc(_userId).update({
@@ -380,14 +400,7 @@ class ProfileController extends GetxController {
         'sender': FieldValue.delete(),
         'approved': FieldValue.delete(),
       });
-
-      /* await firestore.collection('users').doc(partnerId).update({
-        'partnerId': FieldValue.delete(),
-        'rejected': FieldValue.delete(),
-        'sender': FieldValue.delete(),
-        'approved': FieldValue.delete(),
-      });*/
-    } catch (error) {
+    } on FirebaseAuthException catch (error) {
       print('Error fetching partner request: $error');
       rethrow;
     }
@@ -396,7 +409,43 @@ class ProfileController extends GetxController {
   ///
   ///
   ///
+
   ///
+  ///
+  ///
+  Future<bool> _checkLocationPermission() async {
+    PermissionStatus locationPermissionStatus =
+        await Permission.location.status;
+    if (locationPermissionStatus.isGranted ||
+        locationPermissionStatus.isLimited) {
+      return true;
+    } else if (locationPermissionStatus.isDenied ||
+        locationPermissionStatus.isPermanentlyDenied) {
+      // PermissionStatus permissionStatus = await Permission.location.request();
+      //await Geolocator.getCurrentPosition();
+      //  return permissionStatus.isGranted || permissionStatus.isLimited;
+      return true;
+    } else if (locationPermissionStatus.isProvisional ||
+        locationPermissionStatus.isLimited) {
+      return true;
+    } else {
+      return false; // Handle other states if needed
+    }
+  }
+
+  Future<bool> _checkNotificationPermission() async {
+    PermissionStatus notificationPermissionStatus =
+        await Permission.notification.status;
+    if (notificationPermissionStatus.isGranted) {
+      return true;
+    } else if (notificationPermissionStatus.isDenied) {
+      PermissionStatus permissionStatus =
+          await Permission.notification.request();
+      return permissionStatus.isGranted;
+    } else {
+      return false; // Permission is permanently denied, handle accordingly
+    }
+  }
 
   createUserName(BuildContext context, String username) async {
     QuerySnapshot displayNameSnapshot = await firestore

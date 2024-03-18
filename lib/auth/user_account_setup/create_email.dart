@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
-import 'package:vixo/auth/setup/create_username.dart';
+import 'package:vixo/auth/user_account_setup/create_username.dart';
 import 'package:vixo/constants.dart';
 import 'package:vixo/screens/login/login_screen.dart';
 import 'package:vixo/theme/theme.dart';

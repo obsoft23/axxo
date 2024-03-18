@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, unused_field, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:vixo/constants.dart';
-import 'package:vixo/screens/home.dart';
 
 import '../../theme/theme.dart';
 

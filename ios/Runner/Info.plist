@@ -41,6 +41,12 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Explanation of why the app needs access to the user's location.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Explanation of why the app needs access to the user's location.</string>
+	<key>UIBackgroundModes</key>
+	<string>location</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FacebookAppID</key>

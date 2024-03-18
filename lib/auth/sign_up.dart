@@ -103,7 +103,7 @@ class _CreateAccountPageState extends State<CreateAccountPage>
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Text("Step 1/2", style: subTitle4)
+            Text("Step 1/3", style: subTitle4)
           ],
         ),
         leading: IconButton(

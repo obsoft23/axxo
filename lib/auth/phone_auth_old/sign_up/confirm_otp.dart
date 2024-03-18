@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:pinput/pinput.dart';
-import 'package:vixo/auth/setup/create_email.dart';
+import 'package:vixo/auth/user_account_setup/create_email.dart';
 import 'package:vixo/components/custom_button.dart';
 import 'package:vixo/constants.dart';
 import 'package:vixo/controllers/auth_controller.dart';
