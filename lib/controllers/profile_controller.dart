@@ -21,8 +21,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vixo/screens/login/login_screen.dart';
 
 class ProfileController extends GetxController {
-  //static final FirebaseAuth auth = FirebaseAuth.instance;
-
   final RxBool _isConfirmed = false.obs;
   final RxBool _isRejected = false.obs;
   Rx<DocumentSnapshot<Map<String, dynamic>>?> partnerRequest =
@@ -67,7 +65,6 @@ class ProfileController extends GetxController {
   checkIfHasPartner() async {
     try {
       if (auth.currentUser == null) {
-        print("is auth null");
         return;
       }
 
@@ -153,35 +150,29 @@ class ProfileController extends GetxController {
               //
             }
           }
-          //..      /
-
-          //
         } else if (!userData.containsKey('partnerId')) {
           Get.offNamed('/add_partner');
         } else {
-          //Code Block for when user as completed basic sign in
-          bool locationPermission = await _checkLocationPermission();
-          bool notificationPermission = await _checkNotificationPermission();
-          if (locationPermission && notificationPermission) {
-            // Both permissions granted, navigate to the home page
+          print("Checking to see if notification and location is granted");
+
+          await locationController.requestLocationPermission();
+          bool isGrantedLocation = await locationController.isLocationGranted();
+
+          bool notificationPermission =
+              await notificationController.isNotificationPermissionGranted();
+          print('Location status: $isGrantedLocation');
+          print('Notification status: $notificationPermission');
+
+          if (isGrantedLocation && notificationPermission) {
             Get.offNamed('/home');
             return;
-          } else if (locationPermission) {
+          } else if (!isGrantedLocation) {
             Get.offNamed('/location_permission');
             return;
-          } else if (notificationPermission) {
+          } else if (!notificationPermission) {
             Get.offNamed('/notification_intro');
             return;
-          } else {
-            if (!locationPermission) {
-              print("am here checking now$locationPermission");
-              Get.offNamed('/location_permission');
-              return;
-            } else if (!notificationPermission) {
-              Get.offNamed('/notification_intro');
-              return;
-            }
-          }
+          } else {}
         }
       } else {
         print('User document not found');
@@ -416,14 +407,16 @@ class ProfileController extends GetxController {
   Future<bool> _checkLocationPermission() async {
     PermissionStatus locationPermissionStatus =
         await Permission.location.status;
+    print(
+        " in locationPermissionStatus the status is $locationPermissionStatus");
     if (locationPermissionStatus.isGranted ||
         locationPermissionStatus.isLimited) {
       return true;
     } else if (locationPermissionStatus.isDenied ||
         locationPermissionStatus.isPermanentlyDenied) {
-      // PermissionStatus permissionStatus = await Permission.location.request();
-      //await Geolocator.getCurrentPosition();
-      //  return permissionStatus.isGranted || permissionStatus.isLimited;
+      /*   PermissionStatus permissionStatus = await Permission.location.request();
+      await Geolocator.getCurrentPosition();
+      return permissionStatus.isGranted || permissionStatus.isLimited;*/
       return true;
     } else if (locationPermissionStatus.isProvisional ||
         locationPermissionStatus.isLimited) {
@@ -434,8 +427,10 @@ class ProfileController extends GetxController {
   }
 
   Future<bool> _checkNotificationPermission() async {
-    PermissionStatus notificationPermissionStatus =
+    /*PermissionStatus notificationPermissionStatus =
         await Permission.notification.status;
+    print(
+        " in _checkNotificationPermission the status is $notificationPermissionStatus");
     if (notificationPermissionStatus.isGranted) {
       return true;
     } else if (notificationPermissionStatus.isDenied) {
@@ -444,6 +439,20 @@ class ProfileController extends GetxController {
       return permissionStatus.isGranted;
     } else {
       return false; // Permission is permanently denied, handle accordingly
+    }*/
+    PermissionStatus status = await Permission.notification.status;
+    if (status.isGranted) {
+      // Permission already granted
+      print('Notification permission granted');
+      return true;
+    } else if (status.isDenied ||
+        status.isRestricted ||
+        status.isPermanentlyDenied) {
+      // Permission not granted
+      return false;
+    } else {
+      // Permission is not determined (yet), request it
+      return false;
     }
   }
 

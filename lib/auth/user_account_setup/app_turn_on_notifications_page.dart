@@ -1,15 +1,16 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_import
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:vixo/components/responsive.dart';
 import 'package:vixo/constants.dart';
+import 'package:vixo/screens/base_page.dart';
 import 'package:vixo/theme/theme.dart';
 
 class NotificationRequestPage extends StatefulWidget {
-  const NotificationRequestPage({super.key});
+  const  NotificationRequestPage({super.key});
 
   @override
   State<NotificationRequestPage> createState() =>
@@ -28,14 +29,14 @@ class _NotificationRequestPageState extends State<NotificationRequestPage> {
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
           onTap: () async {
-            // Get.to(() => HomePage());
-            try {
+            notificationController.requestNotificationPermission();
+            /*  try {
               await firebaseMessaging.requestPermission();
             } catch (e) {
               if (kDebugMode) {
                 print(e);
               }
-            }
+            }*/
           },
           child: Ink(
             width: double.infinity,
@@ -73,7 +74,7 @@ class _NotificationRequestPageState extends State<NotificationRequestPage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => NotificationRequestPage());
+                    Get.offAllNamed("home");
                   },
                   child: Text(
                     "Skip",

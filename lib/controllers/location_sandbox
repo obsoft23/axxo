@@ -1,20 +1,18 @@
-// ignore_for_file: avoid_print, unused_import
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:vixo/constants.dart';
-
-class LocationController extends GetxController {
-  final Rx<dynamic> locationData = Rx<dynamic>(null);
+final Rx<dynamic> locationData = Rx<dynamic>(null);
   late Position _currentPosition;
 
   @override
-  void onInit() async {
+  void onInit() {
     // Get called when controller is created
     super.onInit();
     // Start listening for location changes
+    Geolocator.getPositionStream().listen((Position position) {
+      _currentPosition = position;
+      updateLocationInFirestore();
+    }, onError: (error) {
+      print('Error receiving location update: $error');
+    });
   }
 
   @override
@@ -24,20 +22,8 @@ class LocationController extends GetxController {
   }
 
   Future<bool> isLocationGranted() async {
-    return true;
-  }
-
-  Future<void> requestLocationPermission() async {
     PermissionStatus status = await Permission.location.status;
-    if (status.isDenied || status.isRestricted || status.isPermanentlyDenied) {
-      status = await Permission.location.request();
-    }
-
-    if (status.isGranted) {
-      print('Location permission granted');
-    } else {
-      print('Location permission denied');
-    }
+    return status.isGranted;
   }
 
   Future<void> getLocation() async {
@@ -55,7 +41,7 @@ class LocationController extends GetxController {
     }
 
     permission = await Geolocator.checkPermission();
-    print("checking permission: $permission");
+    print(permission);
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
@@ -70,12 +56,9 @@ class LocationController extends GetxController {
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
-      print(
-          "ocation permissions are permanently denied, we cannot request permissions.");
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-
     Position? position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
@@ -87,13 +70,13 @@ class LocationController extends GetxController {
     _currentPosition = position;
 
     updateLocationInFirestore();
-    Get.offAllNamed("notification_intro");
+
     return;
   }
 
   Future<void> updateLocationInFirestore() async {
     try {
-      print("updating  user location in DB");
+      print("function called");
       await firestore
           .collection('user_locations')
           .doc(auth.currentUser!.uid)
@@ -111,12 +94,3 @@ class LocationController extends GetxController {
       print('Error updating location: $error');
     }
   }
-}
-
-/*
- Geolocator.getPositionStream().listen((Position position) {
-        _currentPosition = position;
-        updateLocationInFirestore();
-      }, onError: (error) {
-        print('Error receiving location update: $error');
-      });*/

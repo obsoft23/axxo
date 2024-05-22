@@ -3,16 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:vixo/constants.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class AppHomeBasePage extends StatefulWidget {
+  const AppHomeBasePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<AppHomeBasePage> createState() => _AppHomeBasePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AppHomeBasePageState extends State<AppHomeBasePage> {
   @override
   void initState() {
+    profileController.checkIfHasPartner();
     super.initState();
   }
 

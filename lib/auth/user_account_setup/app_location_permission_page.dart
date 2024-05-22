@@ -24,26 +24,10 @@ class _LocationPermissionRequestPageState
   @override
   void initState() {
     super.initState();
-    _checkLocationPermission();
+    //_checkLocationPermission();
   }
 
-  _checkLocationPermission() async {
-    /* bool locationPermission = false;
-    PermissionStatus locationPermissionStatus =
-        await Permission.location.status;
-    if (locationPermissionStatus.isGranted) {
-      return locationPermission == true;
-    } else if (locationPermissionStatus.isDenied) {
-      PermissionStatus permissionStatus = await Permission.location.request();
-      return locationPermission == permissionStatus.isGranted;
-    } else {
-      print("Statu son $locationPermission");
-      if (!locationPermission) {
-        Get.offNamed('/notification_intro');
-        return;
-      }
-    }*/
-  }
+  //_checkLocationPermission() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +40,7 @@ class _LocationPermissionRequestPageState
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
           onTap: () async {
-            // authController.logout();
-            // Get.to(() => NotificationRequestPage());
-            await locationNotificationsController.getLocation();
+            await locationController.getLocation();
           },
           child: Ink(
             width: double.infinity,

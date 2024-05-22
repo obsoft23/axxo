@@ -215,3 +215,43 @@ Future sendOTPRequest(String phoneNo) async {
     userLocation.value = data;
   }*/
   //RxString locationData = ''.obs;
+
+
+
+
+
+   /* //Code Block for when user as completed basic sign in
+          bool locationPermission = await _checkLocationPermission();
+          bool notificationPermission = await _checkNotificationPermission();
+          print("location permission check return is: $locationPermission");
+          print("notifications return value is: $notificationPermission");*/
+/*
+            bool locationPermission =
+              await locationController.isLocationGranted();
+          bool notificationPermission =
+              await notificationController.isNotificationPermissionGranted();
+          print('Location status: $locationPermission');
+          print('Notification status: $notificationPermission');
+
+          if (locationPermission && notificationPermission) {
+            // Both permissions granted, navigate to the home page
+            Get.offNamed('/app_base');
+
+            return;
+          } else if (!locationPermission) {
+            Get.offNamed('/location_permission');
+            return;
+          } else if (!notificationPermission) {
+            Get.offNamed('/notification_intro');
+            return;
+          } else {
+         if (!locationPermission) {
+              print("am here checking now$locationPermission");
+print("-----------here we are------------1");
+              Get.offNamed('/location_permission');
+              return;
+            } else if (!notificationPermission) {
+              Get.offNamed('/notification_intro');
+              return;
+            }
+          } */

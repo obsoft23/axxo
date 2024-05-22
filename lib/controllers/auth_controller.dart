@@ -48,7 +48,7 @@ class AuthController extends GetxController {
   }
 
   checkLogin(user) async {
-    print("on this set intial page  $user");
+    //print("on this set intial page  $user");
     try {
       if (user == null) {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -62,7 +62,7 @@ class AuthController extends GetxController {
           return;
         }
       } else {
-        Get.offAllNamed("/home");
+        //  Get.offAllNamed("/app_base");
         return;
       }
     } catch (error) {
@@ -70,12 +70,14 @@ class AuthController extends GetxController {
     }
   }
 
+  userLoggedIn() {}
+
   loginUser(String email, String password, context) async {
     // Implement your sign in logic with email and password here
     print('Signing in with email and password...');
-    print('Email: $email, Password: $password');
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
+      Get.offAllNamed("/app_base");
     } on FirebaseAuthException catch (error) {
       print("error login in user : \n $error");
       return toastification.show(
@@ -111,7 +113,7 @@ class AuthController extends GetxController {
         'uid': _user.uid,
       });
 
-      // Get.offAllNamed("add_username");
+      Get.offAllNamed("app_base");
     } on FirebaseAuthException catch (error) {
       print("error creating new user : \n $error");
       toastification.show(
@@ -181,4 +183,6 @@ class AuthController extends GetxController {
       print("error logging out : \n $firebaseAuthException");
     }
   }
+
+  //
 }
