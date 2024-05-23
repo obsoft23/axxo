@@ -15,8 +15,8 @@ class PartnerConfirmationPage extends StatefulWidget {
 
 class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  // late AnimationController _controller;
+  //late Animation<double> _animation;
 
   bool _isLoading = false;
 
@@ -24,7 +24,7 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
   void initState() {
     super.initState();
     profileController.fetchPartnerRequest();
-    _controller =
+    /*_controller =
         AnimationController(duration: Duration(seconds: 1), vsync: this);
 
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller)
@@ -32,7 +32,7 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
         setState(() {});
       });
 
-    _controller.repeat(reverse: true);
+    _controller.repeat(reverse: true);*/
 
     Future.delayed(Duration(seconds: 18), () {
       setState(() {
@@ -43,7 +43,7 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
 
   @override
   void dispose() {
-    _controller.dispose();
+    //_controller.dispose();
     super.dispose();
   }
 
@@ -51,7 +51,6 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-           
           iconTheme: IconThemeData(
             color: kDefaultIconDarkColor, //change your color here
           ),
@@ -79,6 +78,7 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_new_sharp),
             onPressed: () async {
+              // _controller.dispose();
               // Show alert dialog when back button is pressed
               String pageInfo = "set up";
               await _showExitConfirmationDialog(context, pageInfo);
@@ -91,11 +91,8 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
               SizedBox(
                 height: 38,
               ),
-              Opacity(
-                opacity: _animation.value,
-                child: SizedBox(
-                  child: Image.asset("assets/images/please_wait.gif"),
-                ),
+              SizedBox(
+                child: Image.asset("assets/images/please_wait.gif"),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -125,25 +122,26 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
           ),
         ));
   }
-}
 
-_showExitConfirmationDialog(BuildContext context, String pageInfo) async {
-  return PanaraConfirmDialog.showAnimatedGrow(
-    noImage: true,
-    context,
-    message: "You will exit $pageInfo process and you will be logged out.",
-    confirmButtonText: "Confirm",
-    cancelButtonText: "Cancel",
-    textColor: kDefaultIconDarkColor,
-    onTapCancel: () {
-      Navigator.pop(context);
-    },
-    onTapConfirm: () {
-      //Navigator.pop(context);
-      authController.logout();
-    },
-    panaraDialogType: PanaraDialogType.warning,
-  );
+  _showExitConfirmationDialog(BuildContext context, String pageInfo) {
+    return PanaraConfirmDialog.showAnimatedGrow(
+      noImage: true,
+      context,
+      message: "You will exit $pageInfo process and you will be logged out.",
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
+      textColor: kDefaultIconDarkColor,
+      onTapCancel: () {
+        Navigator.pop(context);
+      },
+      onTapConfirm: () {
+        //Navigator.pop(context);
+
+        authController.logout();
+      },
+      panaraDialogType: PanaraDialogType.warning,
+    );
+  }
 }
 
 class PartnerConfirmationContent extends StatefulWidget {
@@ -210,3 +208,10 @@ class _PartnerConfirmationContentState
     );
   }
 }
+
+/* Opacity(
+                opacity: _animation.value,
+                child: SizedBox(
+                  child: Image.asset("assets/images/please_wait.gif"),
+                ),
+              ),*/

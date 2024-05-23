@@ -155,11 +155,12 @@ class ProfileController extends GetxController {
         } else {
           print("Checking to see if notification and location is granted");
 
-          await locationController.requestLocationPermission();
+          //await locationController.requestLocationPermission();
           bool isGrantedLocation = await locationController.isLocationGranted();
-
           bool notificationPermission =
               await notificationController.isNotificationPermissionGranted();
+
+          //
           print('Location status: $isGrantedLocation');
           print('Notification status: $notificationPermission');
 

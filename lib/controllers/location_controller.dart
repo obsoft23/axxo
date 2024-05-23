@@ -24,7 +24,15 @@ class LocationController extends GetxController {
   }
 
   Future<bool> isLocationGranted() async {
-    return true;
+    /* if (await Permission.location.request().isGranted) {
+      print(
+          "Either the permission was already granted before or the user just granted it.");
+      PermissionStatus status = await Permission.location.status;
+      return status.isGranted;
+    }*/
+
+    PermissionStatus status = await Permission.location.status;
+    return status.isGranted;
   }
 
   Future<void> requestLocationPermission() async {
@@ -112,11 +120,3 @@ class LocationController extends GetxController {
     }
   }
 }
-
-/*
- Geolocator.getPositionStream().listen((Position position) {
-        _currentPosition = position;
-        updateLocationInFirestore();
-      }, onError: (error) {
-        print('Error receiving location update: $error');
-      });*/

@@ -94,3 +94,12 @@ final Rx<dynamic> locationData = Rx<dynamic>(null);
       print('Error updating location: $error');
     }
   }
+
+
+
+
+  post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+  end
+end

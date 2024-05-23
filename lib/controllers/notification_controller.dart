@@ -8,7 +8,6 @@ import 'package:permission_handler/permission_handler.dart';
 class NotificationController extends GetxController {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-
   @override
   void onReady() {
     _configureFirebaseListeners();
@@ -24,6 +23,9 @@ class NotificationController extends GetxController {
       provisional: false,
       sound: true,
     );
+
+    Get.offAllNamed("home");
+    return;
   }
 
   Future<bool> isNotificationPermissionGranted() async {
