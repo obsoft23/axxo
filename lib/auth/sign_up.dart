@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:vixo/auth/sign_in.dart';
 import 'package:vixo/components/socials_button.dart';
-import 'package:vixo/constants.dart';
+import 'package:vixo/theme/constants.dart';
 import 'package:vixo/theme/theme.dart';
 
 void main() {

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:vixo/auth/user_account_setup/create_email.dart';
 import 'package:vixo/auth/phone_auth_old/sign_up/confirm_otp.dart';
 import 'package:vixo/intro_screen/on_boarding.dart';
-import 'package:vixo/screens/home.dart';
+import 'package:vixo/view/home.dart';
 
 class AuthService {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

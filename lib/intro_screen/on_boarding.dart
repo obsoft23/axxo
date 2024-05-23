@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:intro_screen_onboarding_flutter/introduction.dart';
 import 'package:intro_screen_onboarding_flutter/introscreenonboarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vixo/screens/login/login_screen.dart';
+import 'package:vixo/view/login/login_screen.dart';
 
 class OnBoarding extends StatelessWidget {
   const OnBoarding({super.key});

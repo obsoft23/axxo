@@ -11,7 +11,7 @@ import 'package:vixo/auth/user_account_setup/create_username.dart';
 import 'package:vixo/auth/phone_auth_old/sign_in/phone_sign_in.dart';
 import 'package:vixo/auth/phone_auth_old/sign_up/confirm_otp.dart';
 import 'package:vixo/auth/phone_auth_old/sign_up/phone_sign_up.dart';
-import 'package:vixo/constants.dart';
+import 'package:vixo/theme/constants.dart';
 import 'package:vixo/controllers/auth_controller.dart';
 import 'package:vixo/controllers/location_controller.dart';
 import 'package:vixo/controllers/notification_controller.dart';
@@ -22,9 +22,10 @@ import 'package:vixo/intro_screen/on_boarding.dart';
 import 'package:get/get.dart';
 import 'package:ios_willpop_transition_theme/ios_willpop_transition_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:vixo/screens/base_page.dart';
-import 'package:vixo/screens/home.dart';
-import 'package:vixo/screens/login/login_screen.dart';
+import 'package:vixo/view/logic_page.dart';
+import 'package:vixo/view/home.dart';
+import 'package:vixo/view/login/login_screen.dart';
+import 'package:vixo/view/pages/map_page.dart';
 import 'auth/user_account_setup/add_partner.dart';
 import 'firebase_options.dart';
 
@@ -37,6 +38,7 @@ Future<void> main() async {
     Get.put(ProfileController());
     Get.put(LocationController());
     Get.put(NotificationController());
+    //Get.put(PageController());
   });
   runApp(MyApp());
 }
@@ -66,6 +68,7 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: '/awaiting_partner', page: () => PartnerConfirmationPage()),
         GetPage(name: '/confirm_partner', page: () => ConfirmPartnerPage()),
+        GetPage(name: '/home_page', page: () => PartnerLocationMap()),
       ],
       title: 'Dating',
       debugShowCheckedModeBanner: false,
@@ -83,27 +86,7 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      home: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          // ignore: prefer_const_literals_to_create_immutables
-          children: [
-            /*  Center(
-              child: SizedBox(
-                width: 28,
-                height: 28,
-                child: Image.asset("assets/images/loading.gif"),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                authController.logout();
-              },
-              child: Text("Logout"),
-            )*/ 
-          ],
-        ),
-      ),
+      home: Container(),
     );
   }
 }

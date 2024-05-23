@@ -9,7 +9,7 @@ import 'package:simple_snackbar/simple_snackbar.dart';
 import 'package:toastification/toastification.dart';
 import 'package:vixo/auth/phone_auth_old/sign_in/phone_sign_in.dart';
 import 'package:vixo/auth/phone_auth_old/sign_up/confirm_otp.dart';
-import 'package:vixo/constants.dart';
+import 'package:vixo/theme/constants.dart';
 import 'package:vixo/controllers/auth_service.dart';
 import 'package:vixo/theme/theme.dart';
 

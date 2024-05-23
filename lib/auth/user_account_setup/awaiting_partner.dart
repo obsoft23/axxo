@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
-import 'package:vixo/constants.dart';
-import 'package:vixo/screens/home.dart';
+import 'package:vixo/theme/constants.dart';
+import 'package:vixo/view/home.dart';
 import 'package:vixo/theme/theme.dart';
 
 class PartnerConfirmationPage extends StatefulWidget {
@@ -13,8 +13,7 @@ class PartnerConfirmationPage extends StatefulWidget {
       _PartnerConfirmationPageState();
 }
 
-class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
-    with SingleTickerProviderStateMixin {
+class _PartnerConfirmationPageState extends State<PartnerConfirmationPage> {
   // late AnimationController _controller;
   //late Animation<double> _animation;
 
@@ -35,9 +34,9 @@ class _PartnerConfirmationPageState extends State<PartnerConfirmationPage>
     _controller.repeat(reverse: true);*/
 
     Future.delayed(Duration(seconds: 18), () {
-      setState(() {
+      /*setState(() {
         _isLoading = true;
-      });
+      });*/
     });
   }
 

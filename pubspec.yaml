@@ -63,6 +63,7 @@ dependencies:
   permission_handler: ^11.3.0
   geolocator: ^11.0.0
   firebase_messaging: ^14.7.16
+  liquid_swipe: ^3.1.0
 
 dev_dependencies:
   flutter_test:

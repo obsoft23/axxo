@@ -5,10 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vixo/components/responsive.dart';
-import 'package:vixo/constants.dart';
+import 'package:vixo/theme/constants.dart';
 import 'package:vixo/auth/user_account_setup/app_turn_on_notifications_page.dart';
-import 'package:vixo/screens/home.dart';
-import 'package:vixo/services/location_services.dart';
+import 'package:vixo/view/home.dart';
 import 'package:vixo/theme/theme.dart';
 
 class LocationPermissionRequestPage extends StatefulWidget {
@@ -24,10 +23,7 @@ class _LocationPermissionRequestPageState
   @override
   void initState() {
     super.initState();
-    //_checkLocationPermission();
   }
-
-  //_checkLocationPermission() async {}
 
   @override
   Widget build(BuildContext context) {

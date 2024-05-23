@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
-import 'package:vixo/constants.dart';
+import 'package:vixo/theme/constants.dart';
 import 'package:vixo/theme/theme.dart';
 
 class ProvideAccountUsername extends StatefulWidget {

@@ -8,8 +8,8 @@ import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:vixo/components/loading_gif.dart';
 import 'package:vixo/components/socials_button.dart';
-import 'package:vixo/constants.dart';
-import 'package:vixo/screens/home.dart';
+import 'package:vixo/theme/constants.dart';
+import 'package:vixo/view/home.dart';
 import 'package:vixo/theme/theme.dart';
 
 // ignore: must_be_immutable

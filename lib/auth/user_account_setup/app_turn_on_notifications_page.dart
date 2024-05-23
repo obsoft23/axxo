@@ -5,8 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vixo/components/responsive.dart';
-import 'package:vixo/constants.dart';
-import 'package:vixo/screens/base_page.dart';
+import 'package:vixo/theme/constants.dart';
+import 'package:vixo/view/logic_page.dart';
 import 'package:vixo/theme/theme.dart';
 
 class NotificationRequestPage extends StatefulWidget {

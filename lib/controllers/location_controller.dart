@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:vixo/constants.dart';
+import 'package:vixo/theme/constants.dart';
 
 class LocationController extends GetxController {
   final Rx<dynamic> locationData = Rx<dynamic>(null);
@@ -95,7 +95,7 @@ class LocationController extends GetxController {
     _currentPosition = position;
 
     updateLocationInFirestore();
-    Get.offAllNamed("notification_intro");
+    Get.offAllNamed("app_base");
     return;
   }
 

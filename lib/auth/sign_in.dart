@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:vixo/auth/forgot_password.dart';
 import 'package:vixo/auth/sign_up.dart';
 import 'package:vixo/components/socials_button.dart';
-import 'package:vixo/constants.dart';
+import 'package:vixo/theme/constants.dart';
 import 'package:vixo/theme/theme.dart';
 
 class LoginPage extends StatefulWidget {

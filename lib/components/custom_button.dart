@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:touchable_opacity/touchable_opacity.dart';
 import 'package:vixo/theme/theme.dart';
 
-import '../constants.dart';
+import '../theme/constants.dart';
 
 class CustomerAppButton extends StatelessWidget {
   CustomerAppButton({

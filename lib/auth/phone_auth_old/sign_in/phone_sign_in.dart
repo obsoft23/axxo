@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinput/pinput.dart';
 import 'package:toastification/toastification.dart';
-import 'package:vixo/constants.dart';
+import 'package:vixo/theme/constants.dart';
 import 'package:vixo/controllers/auth_controller.dart';
 import 'package:vixo/controllers/auth_service.dart';
 import 'package:vixo/theme/theme.dart';
