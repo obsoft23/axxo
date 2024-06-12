@@ -21,7 +21,7 @@ version: 1.0.0+1
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
-
+  
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -40,7 +40,6 @@ dependencies:
   get: ^4.6.6
   touchable_opacity: ^1.2.0
   flutter_svg: ^2.0.9
-  modal_bottom_sheet: ^2.1.2
   ios_willpop_transition_theme: ^0.0.6
   firebase_core: ^2.24.2
   firebase_auth: ^4.16.0
@@ -64,6 +63,15 @@ dependencies:
   geolocator: ^11.0.0
   firebase_messaging: ^14.7.16
   liquid_swipe: ^3.1.0
+  mapbox_gl: ^0.16.0
+  table_calendar: ^3.1.2
+  modal_bottom_sheet: ^3.0.0-pre
+  animated_custom_dropdown: 3.1.0
+  font_awesome_flutter: 10.7.0
+  firebase_storage: ^11.6.9
+  emoji_picker_flutter: ^2.1.1
+  awesome_notifications: ^0.9.3+1
+
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +99,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/cache.db
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

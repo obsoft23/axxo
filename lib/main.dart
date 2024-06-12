@@ -11,6 +11,9 @@ import 'package:vixo/auth/user_account_setup/create_username.dart';
 import 'package:vixo/auth/phone_auth_old/sign_in/phone_sign_in.dart';
 import 'package:vixo/auth/phone_auth_old/sign_up/confirm_otp.dart';
 import 'package:vixo/auth/phone_auth_old/sign_up/phone_sign_up.dart';
+import 'package:vixo/controllers/calender_controller.dart';
+import 'package:vixo/controllers/chat_controller.dart';
+import 'package:vixo/controllers/map_controller.dart';
 import 'package:vixo/theme/constants.dart';
 import 'package:vixo/controllers/auth_controller.dart';
 import 'package:vixo/controllers/location_controller.dart';
@@ -38,7 +41,9 @@ Future<void> main() async {
     Get.put(ProfileController());
     Get.put(LocationController());
     Get.put(NotificationController());
-    //Get.put(PageController());
+    Get.put(MapController());
+    Get.put(CalendarController());
+    Get.put(ChatController());
   });
   runApp(MyApp());
 }

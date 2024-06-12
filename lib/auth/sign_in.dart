@@ -73,9 +73,6 @@ class _LoginPageState extends State<LoginPage>
           icon: Icon(Icons.arrow_back_ios_new_sharp),
           onPressed: () {
             Get.back();
-            // Show alert dialog when back button is pressed
-            //  String pageInfo = "username";
-            //  _showExitConfirmationDialog(context, pageInfo);
           },
         ),
       ),

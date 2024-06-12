@@ -6,7 +6,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:vixo/controllers/auth_controller.dart';
 import 'package:vixo/controllers/auth_service.dart';
+import 'package:vixo/controllers/calender_controller.dart';
+import 'package:vixo/controllers/chat_controller.dart';
 import 'package:vixo/controllers/location_controller.dart';
+import 'package:vixo/controllers/map_controller.dart';
 import 'package:vixo/controllers/notification_controller.dart';
 import 'package:vixo/controllers/profile_controller.dart';
 
@@ -18,3 +21,6 @@ ProfileController profileController = Get.find();
 LocationController locationController = Get.find();
 FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 NotificationController notificationController = Get.find();
+MapController mapController = Get.find();
+CalendarController calendarController = Get.find();
+ChatController chatController = Get.find();

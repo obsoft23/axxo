@@ -3,7 +3,10 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  awesome_notifications
+  emoji_picker_flutter
   file_selector_linux
+  rive_common
   smart_auth
 )
 
